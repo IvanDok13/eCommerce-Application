@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
+    "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.0",
     "@types/node": "^22.15.3",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
@@ -54,6 +55,7 @@
   "dependencies": {
     "@eslint/config-array": "^0.20.0",
     "@eslint/object-schema": "^2.1.6",
+    "dotenv": "^16.5.0",
     "glob": "^9.3.5",
     "lru-cache": "^11.1.0",
     "rimraf": "^4.4.1",

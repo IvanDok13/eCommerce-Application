@@ -22,5 +22,5 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src", "declaration.d.ts", "global.d.ts", "./dts-bundle-generator.config.ts"]
+  "include": ["src", "declaration.d.ts", "global.d.ts", "./dts-bundle-generator.config.ts", "ct-config.ts"]
 }

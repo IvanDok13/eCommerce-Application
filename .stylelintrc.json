@@ -1,0 +1,35 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order", "stylelint-prettier/recommended"],
+  "plugins": ["stylelint-order", "stylelint-scss"],
+  "stylelint.validate": ["css", "scss"],
+  "rules": {
+    "selector-class-pattern": null,
+    "font-family-no-duplicate-names": [
+      true,
+      {
+        "ignoreFontFamilyNames": ["monospace"]
+      }
+    ],
+    "no-descending-specificity": null,
+    "scss/at-import-partial-extension": "always",
+    "custom-property-empty-line-before": "never",
+    "declaration-empty-line-before": "never",
+    "media-feature-range-notation": "prefix",
+    "no-duplicate-selectors": null,
+    "scss/operator-no-unspaced": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/at-mixin-pattern": null,
+    "number-max-precision": null,
+    "scss/at-function-pattern": null,
+    "function-name-case": null,
+    "at-rule-empty-line-before": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "scss/at-rule-conditional-no-parentheses": null,
+    "order/properties-order": [
+      {
+        "properties": ["width", "font-size", "background-color"],
+        "emptyLineBefore": "never"
+      }
+    ]
+  }
+}

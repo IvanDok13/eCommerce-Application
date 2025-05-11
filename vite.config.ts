@@ -12,5 +12,10 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      '@styles': '/src/styles',
+    },
+  },
   base: '',
 });

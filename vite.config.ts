@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   css: {
@@ -12,10 +13,9 @@ export default defineConfig({
       },
     },
   },
-  resolve: {
-    alias: {
-      '@styles': '/src/styles',
-    },
+  build: {
+    sourcemap: true,
   },
+  plugins: [tsconfigPaths()],
   base: '',
 });

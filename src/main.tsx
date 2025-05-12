@@ -5,12 +5,12 @@ import { createRoot } from 'react-dom/client';
 
 document.body.innerHTML = '<div id="app"></div>';
 
-const root = document.getElementById('app') as HTMLElement;
-if (!root) {
-  throw new Error('App element not found');
+const root = document.querySelector('#app');
+if (!(root instanceof HTMLElement)) {
+  throw new TypeError('App element not found or is not an HTMLElement');
 }
 
-createRoot(document.getElementById('app')!).render(
+createRoot(document.querySelector('#app')!).render(
   <StrictMode>
     <AppRouter />
   </StrictMode>

@@ -29,6 +29,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@assets/*": ["src/assets/*"],
+      "@styles/*": ["src/styles/*"],
       "@contexts/*": ["src/contexts/*"],
       "@commercetool/*": ["src/commercetool/*"],
       "@utils/*": ["src/utils/*"],

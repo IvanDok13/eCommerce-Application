@@ -5,11 +5,17 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
 }
 
 html {
   scroll-behavior: smooth;
-  font-size: 10px;
+  box-sizing: border-box;
+  font-size: 100%;
   color: #2c3e50;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -moz-osx-font-smoothing: grayscale;
@@ -31,4 +37,12 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+header,
+main,
+footer {
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow: hidden;
 }

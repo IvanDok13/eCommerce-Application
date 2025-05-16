@@ -1,18 +1,8 @@
 import { useForm } from 'react-hook-form';
 import styles from './registration-form.module.css';
 import type { FC } from 'react';
+import type { FormData } from './registration-form.types';
 
-type FormData = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  street: string;
-  city: string;
-  postalCode: string;
-  country: string;
-};
 
 export const RegistrationForm: FC = () => {
   const {

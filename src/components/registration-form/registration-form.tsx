@@ -9,7 +9,9 @@ export const RegistrationForm: FC = () => {
     register,
     handleSubmit,
     formState: { errors }, //TO DO: implement error handling
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    mode: 'all',
+  });
 
   const onSubmit = async (data: FormData): Promise<void> => {
     console.log('Form data:', data); //TO DO: implement form submission
@@ -21,9 +23,42 @@ export const RegistrationForm: FC = () => {
         <input className={styles.registrationInput} {...register('email', validationRules.email)} placeholder="Email" />
         {errors.email && <p className={styles.errorMessage}>{errors.email.message}</p>}
       </div>
-      <input className={styles.registrationInput} {...register('password')} placeholder="Password" />
-      <input className={styles.registrationInput} {...register('firstName')} placeholder="First Name" />
-      <input className={styles.registrationInput} {...register('lastName')} placeholder="Last Name" />
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('password', validationRules.password)} placeholder="Password" />
+        {errors.password && <p className={styles.errorMessage}>{errors.password.message}</p>}
+      </div>
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('firstName', validationRules.name)} placeholder="First Name" />
+        {errors.firstName && <p className={styles.errorMessage}>{errors.firstName.message}</p>}
+      </div>
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('lastName', validationRules.name)} placeholder="Last Name" />
+        {errors.lastName && <p className={styles.errorMessage}>{errors.lastName.message}</p>}
+      </div>
+      {/* <div className={styles.registrationInputContainer}>
+
+        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      </div>
+            <div className={styles.registrationInputContainer}>
+
+        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      </div>
+            <div className={styles.registrationInputContainer}>
+
+        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      </div>
+            <div className={styles.registrationInputContainer}>
+
+        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      </div>
+            <div className={styles.registrationInputContainer}>
+
+        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      </div> */}
+      
+      
+      
+      
       <input className={styles.registrationInput} {...register('dateOfBirth')} placeholder="Date of Birth" />
       <input className={styles.registrationInput} {...register('street')} placeholder="Street" />
       <input className={styles.registrationInput} {...register('city')} placeholder="City" />

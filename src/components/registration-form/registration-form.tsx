@@ -35,36 +35,26 @@ export const RegistrationForm: FC = () => {
         <input className={styles.registrationInput} {...register('lastName', validationRules.name)} placeholder="Last Name" />
         {errors.lastName && <p className={styles.errorMessage}>{errors.lastName.message}</p>}
       </div>
-      {/* <div className={styles.registrationInputContainer}>
-
-        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} type="date" {...register('dateOfBirth', validationRules.dateOfBirth)} placeholder="Date of Birth" />
+        {errors.dateOfBirth && <p className={styles.errorMessage}>{errors.dateOfBirth.message}</p>}
       </div>
-            <div className={styles.registrationInputContainer}>
-
-        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('street', validationRules.street)} placeholder="Street" />
+        {errors.street && <p className={styles.errorMessage}>{errors.street.message}</p>}
       </div>
-            <div className={styles.registrationInputContainer}>
-
-        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('city', validationRules.city)} placeholder="City" />
+        {errors.city && <p className={styles.errorMessage}>{errors.city.message}</p>}
       </div>
-            <div className={styles.registrationInputContainer}>
-
-        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('postalCode', validationRules.postalCode)} placeholder="Postal Code" />
+        {errors.postalCode && <p className={styles.errorMessage}>{errors.postalCode.message}</p>}
       </div>
-            <div className={styles.registrationInputContainer}>
-
-        {errors.XX && <p className={styles.errorMessage}>{errors.XX.message}</p>}
-      </div> */}
-      
-      
-      
-      
-      <input className={styles.registrationInput} {...register('dateOfBirth')} placeholder="Date of Birth" />
-      <input className={styles.registrationInput} {...register('street')} placeholder="Street" />
-      <input className={styles.registrationInput} {...register('city')} placeholder="City" />
-      <input className={styles.registrationInput} {...register('postalCode')} placeholder="Postal Code" />
-      <input className={styles.registrationInput} {...register('country')} placeholder="Country" />
-
+      <div className={styles.registrationInputContainer}>
+        <input className={styles.registrationInput} {...register('country', validationRules.country)} placeholder="Country" />
+        {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
+      </div>
       <button className={styles.submitButton} type="submit">
         Register
       </button>

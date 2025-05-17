@@ -67,6 +67,7 @@
   "dependencies": {
     "@types/react-image-gallery": "^1.2.4",
     "dotenv": "^16.5.0",
+    "ecommerce-application": "file:",
     "glob": "^9.3.5",
     "lru-cache": "^11.1.0",
     "react": "^18.3.1",

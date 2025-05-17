@@ -7,13 +7,13 @@ export const Header: FC = () => (
       <nav className={styles.headerNav}>
         <ul className={styles.headerList}>
           <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="#home">
+            <a className={styles.headerLink} href="/">
               Home
             </a>
           </li>
 
           <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="#login">
+            <a className={styles.headerLink} href="login">
               Log in
             </a>
           </li>

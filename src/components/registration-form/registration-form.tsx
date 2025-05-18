@@ -5,8 +5,10 @@ import type { FormData } from './registration-form.types';
 import { validationRules } from '@utils/validation-rules';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 import { registerCustomer } from 'src/api/customers-api';
+import { useNavigate } from 'react-router-dom';
 
 export const RegistrationForm: FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,10 +22,9 @@ export const RegistrationForm: FC = () => {
       const customerDraft = mapFormDataToCustomerDraft(data);
       const result = await registerCustomer(customerDraft);
       console.log('Registered:', result.body.customer);
-      // TODO: Redirect or show success message
-    } catch (error : unknown) {
-       if (error instanceof Error) 
-      console.error('Registration failed:', error);
+      navigate('/', { replace: true });
+    } catch (error: unknown) {
+      if (error instanceof Error) console.error('Registration failed:', error);
       // TODO: show error message in UI
     }
   };

@@ -1,6 +1,10 @@
-CLIENT_ID
-CLIENT_SECRET
-PROJECT_KEY
-SCOPE
-AUTH_URL
-API_URL
+# Project credentials from Composable Commerce Developer Console
+CTP_PROJECT_KEY=your-project-key
+CTP_CLIENT_ID=your-client-id
+CTP_CLIENT_SECRET=your-client-secret
+
+# API endpoints
+CTP_AUTH_URL=https://auth.europe-west1.gcp.commercetools.com
+CTP_API_URL=https://api.europe-west1.gcp.commercetools.com
+
+CTP_SCOPES=manage_project:your-project-key

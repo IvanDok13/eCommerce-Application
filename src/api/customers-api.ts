@@ -19,3 +19,13 @@ export const registerCustomer = async (
 };
 
 
+// Login
+export const loginCustomer = async (
+  credentials: CustomerSignin
+): Promise<ClientResponse<CustomerSignInResult>> => {
+  return await apiRoot
+    .withProjectKey({ projectKey: CTP_PROJECT_KEY })
+    .login()
+    .post({ body: credentials })
+    .execute();
+};

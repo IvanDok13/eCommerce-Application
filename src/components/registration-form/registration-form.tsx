@@ -6,6 +6,7 @@ import { validationRules } from '@utils/validation-rules';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 import { registerCustomer } from 'src/api/customers-api';
 import { useNavigate } from 'react-router-dom';
+import { showErrorToast } from '@utils/utils';
 
 export const RegistrationForm: FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export const RegistrationForm: FC = () => {
       navigate('/', { replace: true });
     } catch (error: unknown) {
       if (error instanceof Error) console.error('Registration failed:', error);
-      // TODO: show error message in UI
+      showErrorToast(String(error), 'rgb(255, 95, 110');
     }
   };
 

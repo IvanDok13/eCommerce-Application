@@ -21,6 +21,44 @@
   font-size: 14px;
 }
 
+.registrationInput:focus {
+  border-color: #2281e6;
+  outline: none;
+  box-shadow: 0 0 5px #7697e6;
+}
+
+.formBlockContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0 0 0 5%);
+}
+
+.mainInfoContainer {
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.shippingAddressContainer {
+  background-color: #e7f4ff;
+  border-color: #b3d8ff;
+}
+
+.billingAddressContainer {
+  background-color: #fff9e6;
+  border-color: #ffe9a8;
+}
+
+.checkboxLabel {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
 .errorMessage {
   color: red;
   font-size: 12px;

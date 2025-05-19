@@ -47,19 +47,16 @@ export const validationRules = {
   postalCode: {
     required: 'Postal code is required',
     pattern: {
-      //TO DO: implement valid regex for postal code after API finishing
-      value: /^[\d A-Za-z-]+$/,
-      message:
-        'Postal code must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)',
+      value: /^[\d\sA-Za-z-]{3,10}$/,
+      message: 'Postal code must be 3–10 characters and may contain letters, numbers, spaces, or dashes',
     },
   },
 
   country: {
     required: 'Country is required',
     pattern: {
-      // TO DO: Replace with ISO country code validation from API/autocomplete
-      value: /^[\sA-Za-z-]{2,}$/,
-      message: 'Country name must contain only letters and be at least 2 characters long',
+      value: /^[A-Z]{2}$/,
+      message: 'Country must be a valid 2-letter ISO code (e.g., US, GB, DE)',
     },
   },
 };

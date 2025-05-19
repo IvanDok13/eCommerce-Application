@@ -81,6 +81,9 @@ export const LoginForm: FC = () => {
         <button type="submit" className={styles.submitButton}>
           Login
         </button>
+        <a type="button" href="/registration" className={styles.submitButton}>
+          Sign up
+        </a>
       </form>
     </div>
   );

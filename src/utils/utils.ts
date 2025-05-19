@@ -15,3 +15,9 @@ export const showErrorToast = (errorMessage: string, backgroundColorValue: strin
       stopOnFocus: true,
     }).showToast();
   };
+
+  export const getErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) return error.message;
+    if (typeof error === 'string') return error;
+    return 'An unknown error occurred. Please try later.';
+  };

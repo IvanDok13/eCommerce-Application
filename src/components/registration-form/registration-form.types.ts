@@ -20,4 +20,6 @@ export type FormData = {
   };
 
   useSameAddress: boolean;
+  defaultShippingAddress: boolean;
+  defaultBillingAddress: boolean;
 };

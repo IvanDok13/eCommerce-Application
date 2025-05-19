@@ -79,6 +79,10 @@ export const RegistrationForm: FC = () => {
       {/* Shipping Address */}
       <div className={`${styles.shippingAddressContainer} ${styles.addressContainer}`}>
         <h3>Shipping Address</h3>
+        <label className={styles.defaultAddressCheckbox}>
+          <input type="checkbox" {...register('defaultShippingAddress')} />
+          Set this address as default shipping address
+        </label>
         <div className={styles.registrationInputContainer}>
           <input
             className={styles.registrationInput}
@@ -140,6 +144,10 @@ export const RegistrationForm: FC = () => {
       {!useSameAddress && (
         <div className={`${styles.billingAddressContainer} ${styles.addressContainer}`}>
           <h3>Billing Address</h3>
+          <label className={styles.defaultAddressCheckbox}>
+            <input type="checkbox" {...register('defaultBillingAddress')} />
+            Set this address as default billing address
+          </label>
           <div className={styles.registrationInputContainer}>
             <input
               className={styles.registrationInput}
@@ -206,8 +214,13 @@ export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => {
   };
 
   const addresses = [shippingAddress];
-  let defaultShippingAddress = 0;
-  let defaultBillingAddress = 0;
+
+  let defaultShippingAddress: number | undefined;
+  let defaultBillingAddress: number | undefined;
+
+  if (data.defaultShippingAddress) {
+    defaultShippingAddress = 0;
+  }
 
   if (!data.useSameAddress && data.billingAddress.street) {
     const billingAddress = {
@@ -217,7 +230,12 @@ export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => {
       country: (data.billingAddress.country || '').toUpperCase(),
     };
     addresses.push(billingAddress);
-    defaultBillingAddress = 1;
+
+    if (data.defaultBillingAddress) {
+      defaultBillingAddress = addresses.length - 1;
+    }
+  } else if (data.useSameAddress) {
+    defaultBillingAddress = defaultShippingAddress;
   }
 
   return {
@@ -231,3 +249,4 @@ export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => {
     defaultBillingAddress,
   };
 };
+

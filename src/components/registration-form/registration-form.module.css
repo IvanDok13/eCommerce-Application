@@ -26,11 +26,16 @@
   font-size: 12px;
 }
 
-.submitButton {
+.submitRegistrationButton {
   padding: 10px;
   background-color: #282c34;
   color: white;
   border: none;
   border-radius: 4px;
   font-weight: bold;
+}
+
+.submitRegistrationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

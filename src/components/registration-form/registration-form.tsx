@@ -13,7 +13,7 @@ export const RegistrationForm: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm<FormData>({
     mode: 'all',
   });
@@ -102,7 +102,7 @@ export const RegistrationForm: FC = () => {
         />
         {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
       </div>
-      <button className={styles.submitButton} type="submit">
+      <button className={styles.submitRegistrationButton} type="submit" disabled={!isDirty || !isValid}>
         Register
       </button>
     </form>

@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginCustomer } from 'src/api/customers-api';
 // import { apiRoot } from '../../../.env';
 import styles from './login-form.module.css';
 import type { LoginFormData } from './type-login-form';
@@ -22,6 +23,14 @@ export const LoginForm: FC = () => {
   const onSubmit = async (data: LoginFormData): Promise<void> => {
     try {
       console.log(data);
+      const response = await loginCustomer(data);
+
+      if (response.statusCode === 200) {
+        navigate('/');
+      } else if (response.statusCode === 400) {
+        console.log(response.statusCode);
+        navigate('/registration');
+      }
     } catch (error) {
       console.log(error);
     }

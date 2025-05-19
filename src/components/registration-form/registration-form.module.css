@@ -26,7 +26,7 @@
   font-size: 12px;
 }
 
-.submitRegistrationButton {
+.registrationButton {
   padding: 10px;
   background-color: #282c34;
   color: white;
@@ -35,7 +35,11 @@
   font-weight: bold;
 }
 
-.submitRegistrationButton:disabled {
+.registrationButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.registrationButton:hover {
+  background-color: #0056b3;
 }

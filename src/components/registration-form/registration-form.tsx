@@ -102,7 +102,7 @@ export const RegistrationForm: FC = () => {
         />
         {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
       </div>
-      <button className={styles.submitRegistrationButton} type="submit" disabled={!isDirty || !isValid}>
+      <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>
         Register
       </button>
     </form>

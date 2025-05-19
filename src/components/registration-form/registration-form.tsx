@@ -25,8 +25,13 @@ export const RegistrationForm: FC = () => {
       console.log('Registered:', result.body.customer);
       navigate('/', { replace: true });
     } catch (error: unknown) {
-      if (error instanceof Error) console.error('Registration failed:', error);
-      showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
+      const message = getErrorMessage(error);
+      if (message.includes('Request body does not contain valid JSON')) {
+        showErrorToast(
+          'Some of the data entered is invalid. For security reasons, we cannot tell you which ones. Please check the form and try again.',
+          'rgb(255, 95, 110)'
+        );
+      } else showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
     }
   };
 

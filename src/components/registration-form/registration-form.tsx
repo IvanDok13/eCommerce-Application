@@ -85,10 +85,6 @@ export const RegistrationForm: FC = () => {
       {/* Shipping Address */}
       <div className={`${styles.shippingAddressContainer} ${styles.formBlockContainer}`}>
         <h3>Shipping Address</h3>
-        <label className={styles.checkboxLabel}>
-          <input type="checkbox" {...register('defaultShippingAddress')} />
-          Set this address as default shipping address
-        </label>
         <div className={styles.registrationInputContainer}>
           <input
             className={styles.registrationInput}
@@ -136,6 +132,10 @@ export const RegistrationForm: FC = () => {
             <p className={styles.errorMessage}>{errors.shippingAddress.country.message}</p>
           )}
         </div>
+        <label className={styles.checkboxLabel}>
+          <input type="checkbox" {...register('defaultShippingAddress')} />
+          Set this address as default shipping address
+        </label>
       </div>
       {/* Checkbox for using shipping address as billing address */}
       <div className={styles.registrationInputContainer}>
@@ -148,10 +148,6 @@ export const RegistrationForm: FC = () => {
       {!useSameAddress && (
         <div className={`${styles.billingAddressContainer} ${styles.formBlockContainer}`}>
           <h3>Billing Address</h3>
-          <label className={styles.checkboxLabel}>
-            <input type="checkbox" {...register('defaultBillingAddress')} />
-            Set this address as default billing address
-          </label>
           <div className={styles.registrationInputContainer}>
             <input
               className={styles.registrationInput}
@@ -199,6 +195,10 @@ export const RegistrationForm: FC = () => {
               <p className={styles.errorMessage}>{errors.billingAddress.country.message}</p>
             )}
           </div>
+          <label className={styles.checkboxLabel}>
+            <input type="checkbox" {...register('defaultBillingAddress')} />
+            Set this address as default billing address
+          </label>
         </div>
       )}
       <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>

@@ -6,13 +6,14 @@ import { validationRules } from '@utils/validation-rules';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 import { registerCustomer } from 'src/api/customers-api';
 import { useNavigate } from 'react-router-dom';
+import { getErrorMessage, showErrorToast } from '@utils/utils';
 
 export const RegistrationForm: FC = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors }, //TO DO: implement error handling
+    formState: { errors, isValid, isDirty },
   } = useForm<FormData>({
     mode: 'all',
   });
@@ -24,8 +25,13 @@ export const RegistrationForm: FC = () => {
       console.log('Registered:', result.body.customer);
       navigate('/', { replace: true });
     } catch (error: unknown) {
-      if (error instanceof Error) console.error('Registration failed:', error);
-      // TODO: show error message in UI
+      const message = getErrorMessage(error);
+      if (message.includes('Request body does not contain valid JSON')) {
+        showErrorToast(
+          'Some of the data entered is invalid. For security reasons, we cannot tell you which ones. Please check the form and try again.',
+          'rgb(255, 95, 110)'
+        );
+      } else showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
     }
   };
 
@@ -96,7 +102,7 @@ export const RegistrationForm: FC = () => {
         />
         {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
       </div>
-      <button className={styles.submitButton} type="submit">
+      <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>
         Register
       </button>
     </form>

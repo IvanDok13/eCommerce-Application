@@ -7,12 +7,14 @@ import type { CustomerDraft } from '@commercetools/platform-sdk';
 import { registerCustomer } from 'src/api/customers-api';
 import { useNavigate } from 'react-router-dom';
 import { getErrorMessage, showErrorToast } from '@utils/utils';
+import { countries } from '@utils/countries-const';
 
 export const RegistrationForm: FC = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid, isDirty },
   } = useForm<FormData>({
     mode: 'all',
@@ -34,7 +36,7 @@ export const RegistrationForm: FC = () => {
       } else showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
     }
   };
-
+  const useSameAddress = watch('useSameAddress');
   return (
     <form className={styles.registrationForm} onSubmit={event => void handleSubmit(onSubmit)(event)}>
       <div className={styles.registrationInputContainer}>
@@ -74,45 +76,120 @@ export const RegistrationForm: FC = () => {
         />
         {errors.dateOfBirth && <p className={styles.errorMessage}>{errors.dateOfBirth.message}</p>}
       </div>
-      <div className={styles.registrationInputContainer}>
-        <input
-          className={styles.registrationInput}
-          {...register('street', validationRules.street)}
-          placeholder="Street"
-        />
-        {errors.street && <p className={styles.errorMessage}>{errors.street.message}</p>}
+      {/* Shipping Address */}
+      <div className={`${styles.shippingAddressContainer} ${styles.addressContainer}`}>
+        <h3>Shipping Address</h3>
+        <div className={styles.registrationInputContainer}>
+          <input
+            className={styles.registrationInput}
+            {...register('shippingAddress.street', validationRules.street)}
+            placeholder="Street"
+          />
+          {errors.shippingAddress?.street && (
+            <p className={styles.errorMessage}>{errors.shippingAddress.street.message}</p>
+          )}
+        </div>
+        <div className={styles.registrationInputContainer}>
+          <input
+            className={styles.registrationInput}
+            {...register('shippingAddress.city', validationRules.city)}
+            placeholder="City"
+          />
+          {errors.shippingAddress?.city && <p className={styles.errorMessage}>{errors.shippingAddress.city.message}</p>}
+        </div>
+        <div className={styles.registrationInputContainer}>
+          <input
+            className={styles.registrationInput}
+            {...register('shippingAddress.postalCode', validationRules.postalCode)}
+            placeholder="Postal Code"
+          />
+          {errors.shippingAddress?.postalCode && (
+            <p className={styles.errorMessage}>{errors.shippingAddress.postalCode.message}</p>
+          )}
+        </div>
+        <div className={styles.registrationInputContainer}>
+          <select
+            className={styles.registrationInput}
+            {...register('shippingAddress.country', validationRules.country)}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select Country
+            </option>
+            {countries.map(({ code, name }) => (
+              <option key={code} value={code}>
+                {code} - {name}
+              </option>
+            ))}
+          </select>
+          {errors.shippingAddress?.country && (
+            <p className={styles.errorMessage}>{errors.shippingAddress.country.message}</p>
+          )}
+        </div>
       </div>
+
+      {/* Checkbox for using shipping address as billing address */}
       <div className={styles.registrationInputContainer}>
-        <input className={styles.registrationInput} {...register('city', validationRules.city)} placeholder="City" />
-        {errors.city && <p className={styles.errorMessage}>{errors.city.message}</p>}
+        <label className={styles.singleAddressFlag}>
+          <input type="checkbox" {...register('useSameAddress')} />
+          Use shipping address as billing address
+        </label>
       </div>
-      <div className={styles.registrationInputContainer}>
-        <input
-          className={styles.registrationInput}
-          {...register('postalCode', validationRules.postalCode)}
-          placeholder="Postal Code"
-        />
-        {errors.postalCode && <p className={styles.errorMessage}>{errors.postalCode.message}</p>}
-      </div>
-      <div className={styles.registrationInputContainer}>
-        <select className={styles.registrationInput} {...register('country', validationRules.country)} defaultValue="">
-          <option value="" disabled>
-            Select Country
-          </option>
-          <option value="US">US - United States</option>
-          <option value="GB">GB - Great Britain</option>
-          <option value="DE">DE - Germany</option>
-          <option value="FR">FR - France</option>
-          <option value="IT">IT - Italy</option>
-          <option value="FI">FI - Finland</option>
-          <option value="ES">ES - Spain</option>
-          <option value="NL">NL - Netherlands</option>
-          <option value="CA">CA - Canada</option>
-          <option value="AU">AU - Australia</option>
-          <option value="CZ">CZ - Czech Republic</option>
-        </select>
-        {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
-      </div>
+
+      {/* Billing Address */}
+      {!useSameAddress && (
+        <div className={`${styles.billingAddressContainer} ${styles.addressContainer}`}>
+          <h3>Billing Address</h3>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('billingAddress.street', validationRules.street)}
+              placeholder="Street"
+            />
+            {errors.billingAddress?.street && (
+              <p className={styles.errorMessage}>{errors.billingAddress.street.message}</p>
+            )}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('billingAddress.city', validationRules.city)}
+              placeholder="City"
+            />
+            {errors.billingAddress?.city && <p className={styles.errorMessage}>{errors.billingAddress.city.message}</p>}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('billingAddress.postalCode', validationRules.postalCode)}
+              placeholder="Postal Code"
+            />
+            {errors.billingAddress?.postalCode && (
+              <p className={styles.errorMessage}>{errors.billingAddress.postalCode.message}</p>
+            )}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <select
+              className={styles.registrationInput}
+              {...register('billingAddress.country', validationRules.country)}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select Country
+              </option>
+              {countries.map(({ code, name }) => (
+                <option key={code} value={code}>
+                  {code} - {name}
+                </option>
+              ))}
+            </select>
+            {errors.billingAddress?.country && (
+              <p className={styles.errorMessage}>{errors.billingAddress.country.message}</p>
+            )}
+          </div>
+        </div>
+      )}
+
       <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>
         Register
       </button>
@@ -120,20 +197,37 @@ export const RegistrationForm: FC = () => {
   );
 };
 
-export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => ({
-  email: data.email,
-  password: data.password,
-  firstName: data.firstName,
-  lastName: data.lastName,
-  dateOfBirth: data.dateOfBirth,
-  addresses: [
-    {
-      streetName: data.street,
-      city: data.city,
-      postalCode: data.postalCode,
-      country: data.country.toUpperCase(),
-    },
-  ],
-  defaultShippingAddress: 0,
-  defaultBillingAddress: 0,
-});
+export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => {
+  const shippingAddress = {
+    streetName: data.shippingAddress.street,
+    city: data.shippingAddress.city,
+    postalCode: data.shippingAddress.postalCode,
+    country: data.shippingAddress.country.toUpperCase(),
+  };
+
+  const addresses = [shippingAddress];
+  let defaultShippingAddress = 0;
+  let defaultBillingAddress = 0;
+
+  if (!data.useSameAddress && data.billingAddress.street) {
+    const billingAddress = {
+      streetName: data.billingAddress.street,
+      city: data.billingAddress.city || '',
+      postalCode: data.billingAddress.postalCode || '',
+      country: (data.billingAddress.country || '').toUpperCase(),
+    };
+    addresses.push(billingAddress);
+    defaultBillingAddress = 1;
+  }
+
+  return {
+    email: data.email,
+    password: data.password,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    dateOfBirth: data.dateOfBirth,
+    addresses,
+    defaultShippingAddress,
+    defaultBillingAddress,
+  };
+};

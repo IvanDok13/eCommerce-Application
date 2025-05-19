@@ -1,0 +1,34 @@
+@import 'normalize.css';
+@import 'reset.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 10px;
+  color: #2c3e50;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+}
+
+body {
+  position: relative;
+  background: rgb(246, 241, 231);
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  color: var(--color-font-dark);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}

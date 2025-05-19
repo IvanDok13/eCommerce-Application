@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #282c34;
+  color: white;
+}
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.header-nav,
+.header-list {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}

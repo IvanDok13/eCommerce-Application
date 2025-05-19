@@ -79,7 +79,7 @@ export const RegistrationForm: FC = () => {
       {/* Shipping Address */}
       <div className={`${styles.shippingAddressContainer} ${styles.addressContainer}`}>
         <h3>Shipping Address</h3>
-        <label className={styles.defaultAddressCheckbox}>
+        <label className={styles.checkboxLabel}>
           <input type="checkbox" {...register('defaultShippingAddress')} />
           Set this address as default shipping address
         </label>
@@ -134,7 +134,7 @@ export const RegistrationForm: FC = () => {
 
       {/* Checkbox for using shipping address as billing address */}
       <div className={styles.registrationInputContainer}>
-        <label className={styles.singleAddressFlag}>
+        <label className={styles.checkboxLabel}>
           <input type="checkbox" {...register('useSameAddress')} />
           Use shipping address as billing address
         </label>
@@ -144,7 +144,7 @@ export const RegistrationForm: FC = () => {
       {!useSameAddress && (
         <div className={`${styles.billingAddressContainer} ${styles.addressContainer}`}>
           <h3>Billing Address</h3>
-          <label className={styles.defaultAddressCheckbox}>
+          <label className={styles.checkboxLabel}>
             <input type="checkbox" {...register('defaultBillingAddress')} />
             Set this address as default billing address
           </label>

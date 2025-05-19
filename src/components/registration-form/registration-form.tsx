@@ -95,11 +95,22 @@ export const RegistrationForm: FC = () => {
         {errors.postalCode && <p className={styles.errorMessage}>{errors.postalCode.message}</p>}
       </div>
       <div className={styles.registrationInputContainer}>
-        <input
-          className={styles.registrationInput}
-          {...register('country', validationRules.country)}
-          placeholder="Country"
-        />
+        <select className={styles.registrationInput} {...register('country', validationRules.country)} defaultValue="">
+          <option value="" disabled>
+            Select Country
+          </option>
+          <option value="US">US - United States</option>
+          <option value="GB">GB - Great Britain</option>
+          <option value="DE">DE - Germany</option>
+          <option value="FR">FR - France</option>
+          <option value="IT">IT - Italy</option>
+          <option value="FI">FI - Finland</option>
+          <option value="ES">ES - Spain</option>
+          <option value="NL">NL - Netherlands</option>
+          <option value="CA">CA - Canada</option>
+          <option value="AU">AU - Australia</option>
+          <option value="CZ">CZ - Czech Republic</option>
+        </select>
         {errors.country && <p className={styles.errorMessage}>{errors.country.message}</p>}
       </div>
       <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>

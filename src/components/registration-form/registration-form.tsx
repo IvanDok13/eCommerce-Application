@@ -13,7 +13,7 @@ export const RegistrationForm: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }, //TO DO: implement error handling
+    formState: { errors },
   } = useForm<FormData>({
     mode: 'all',
   });

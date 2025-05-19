@@ -21,6 +21,25 @@
   font-size: 14px;
 }
 
+.registrationInput:focus {
+  border-color: #2281e6;
+  outline: none;
+  box-shadow: 0 0 5px #7697e6;
+}
+
+.addressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.singleAddressFlag {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
 .errorMessage {
   color: red;
   font-size: 12px;

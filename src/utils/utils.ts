@@ -5,7 +5,7 @@ import Toastify from 'toastify-js';
 export const showErrorToast = (errorMessage: string, backgroundColorValue: string): void => {
     Toastify({
       text: errorMessage,
-      duration: 5000,
+      duration: 10000,
       close: true,
       gravity: 'top', 
       position: 'center',

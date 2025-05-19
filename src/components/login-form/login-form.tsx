@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginCustomer } from 'src/api/customers-api';
-// import { apiRoot } from '../../../.env';
 import styles from './login-form.module.css';
 import type { LoginFormData } from './type-login-form';
+import { getErrorMessage, showErrorToast } from '@utils/utils';
 
 export const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -32,7 +32,13 @@ export const LoginForm: FC = () => {
         navigate('/registration');
       }
     } catch (error) {
-      console.log(error);
+      const message = getErrorMessage(error);
+      if (message.includes('Request body does not contain valid JSON')) {
+        showErrorToast(
+          'Some of the data entered is invalid. For security reasons, we cannot tell you which ones. Please check the form and try again.',
+          'rgb(255, 95, 110)'
+        );
+      } else showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
     }
   };
 

@@ -16,11 +16,11 @@ describe('Registration Page', () => {
     expect(getByText('Register')).toBeInTheDocument();
   });
 
-  it('validates email input', () => {
-    const { getByPlaceholderText, getByText } = renderInsideRouter(<Registration />);
+  it('validates email input', async () => {
+    const { getByPlaceholderText, findByText } = renderInsideRouter(<Registration />);
     const emailInput = getByPlaceholderText('Email');
     fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
-    expect(getByText('Invalid email address')).toBeInTheDocument();
+    expect(await findByText(/Invalid email format/)).toBeInTheDocument();
   });
 
   it('validates password input', async () => {

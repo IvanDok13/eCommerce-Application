@@ -23,11 +23,11 @@ describe('Registration Page', () => {
     expect(getByText('Invalid email address')).toBeInTheDocument();
   });
 
-  it('validates password input', () => {
-    const { getByPlaceholderText, getByText } = renderInsideRouter(<Registration />);
+  it('validates password input', async () => {
+    const { getByPlaceholderText, findByText } = renderInsideRouter(<Registration />);
     const passwordInput = getByPlaceholderText('Password');
     fireEvent.change(passwordInput, { target: { value: 'short' } });
-    expect(getByText('Password must be at least 8 characters')).toBeInTheDocument();
+    expect(await findByText(/Password must be at least 8 characters/)).toBeInTheDocument();
   });
 
   it('submits registration form', async () => {

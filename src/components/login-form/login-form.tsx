@@ -43,7 +43,7 @@ export const LoginForm: FC = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <main className={styles.loginContainer}>
       <h2 className={styles.title}>Login</h2>
       <form
         className={styles.loginForm}
@@ -100,6 +100,6 @@ export const LoginForm: FC = () => {
           Sign up
         </a>
       </form>
-    </div>
+    </main>
   );
 };

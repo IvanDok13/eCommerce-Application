@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form';
+import { getErrorMessage, showErrorToast } from '@utils/utils';
 import type { FC } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { loginCustomer } from 'src/api/customers-api';
 import styles from './login-form.module.css';
 import type { LoginFormData } from './type-login-form';
-import { getErrorMessage, showErrorToast } from '@utils/utils';
 
 export const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const LoginForm: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
+    // setError,
   } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
@@ -43,7 +43,7 @@ export const LoginForm: FC = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <main className={styles.loginContainer}>
       <h2 className={styles.title}>Login</h2>
       <form
         className={styles.loginForm}
@@ -100,6 +100,6 @@ export const LoginForm: FC = () => {
           Sign up
         </a>
       </form>
-    </div>
+    </main>
   );
 };

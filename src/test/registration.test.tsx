@@ -1,10 +1,10 @@
 // registration.test.tsx
-import React from 'react';
 import type { RenderResult } from '@testing-library/react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { Registration } from '../pages/registration/registration';
-import { MemoryRouter } from 'react-router-dom';
 
 const renderInsideRouter = (testedElement: React.ReactElement): RenderResult => {
   return render(<MemoryRouter>{testedElement}</MemoryRouter>);

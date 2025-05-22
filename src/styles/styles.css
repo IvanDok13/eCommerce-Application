@@ -1,17 +1,32 @@
 @import 'normalize.css';
 @import 'reset.css';
 
+/* viaoda-libre-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Viaoda Libre';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/viaoda-libre-v18-latin-regular.woff2') format('woff2');
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
 }
 
 html {
   scroll-behavior: smooth;
-  font-size: 10px;
+  box-sizing: border-box;
+  font-size: 100%;
   color: #2c3e50;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Viaoda Libre', sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-align: center;
@@ -24,11 +39,18 @@ body {
   width: 100%;
   height: 100vh;
   color: var(--color-font-dark);
+  font-family: 'Viaoda Libre', sans-serif;
+  margin: 0 auto;
+  padding: 15px;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
+header,
+main,
+footer {
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 20px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

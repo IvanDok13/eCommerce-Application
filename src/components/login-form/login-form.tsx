@@ -1,12 +1,20 @@
 import { getErrorMessage, showErrorToast } from '@utils/utils';
-import type { FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { loginCustomer } from 'src/api/customers-api';
+import { getCustomerName, loginCustomer } from 'src/api/customers-api';
 import styles from './login-form.module.css';
 import type { LoginFormData } from './type-login-form';
 
 export const LoginForm: FC = () => {
+  const [customerName, setCustomerName] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      getCustomerName(token).then(name => setCustomerName(name));
+    }
+  }, []);
   const navigate = useNavigate();
   const {
     register,

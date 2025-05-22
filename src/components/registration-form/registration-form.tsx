@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form';
-import styles from './registration-form.module.css';
-import type { FC } from 'react';
-import type { FormData } from './registration-form.types';
-import { validationRules } from '@utils/validation-rules';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
-import { registerCustomer } from 'src/api/customers-api';
-import { useNavigate } from 'react-router-dom';
-import { getErrorMessage, showErrorToast } from '@utils/utils';
 import { countries } from '@utils/countries-const';
+import { getErrorMessage, showErrorToast } from '@utils/utils';
+import { validationRules } from '@utils/validation-rules';
+import type { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { registerCustomer } from 'src/api/customers-api';
+import styles from './registration-form.module.css';
+import type { FormData } from './registration-form.types';
 
 export const RegistrationForm: FC = () => {
   const navigate = useNavigate();
@@ -38,148 +38,88 @@ export const RegistrationForm: FC = () => {
   };
   const useSameAddress = watch('useSameAddress');
   return (
-    <form className={styles.registrationForm} onSubmit={event => void handleSubmit(onSubmit)(event)}>
-      <div className={`${styles.mainInfoContainer}  ${styles.formBlockContainer}`}>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('email', validationRules.email)}
-            placeholder="Email"
-          />
-          {errors.email && <p className={styles.errorMessage}>{errors.email.message}</p>}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('password', validationRules.password)}
-            placeholder="Password"
-          />
-          {errors.password && <p className={styles.errorMessage}>{errors.password.message}</p>}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('firstName', validationRules.name)}
-            placeholder="First Name"
-          />
-          {errors.firstName && <p className={styles.errorMessage}>{errors.firstName.message}</p>}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('lastName', validationRules.name)}
-            placeholder="Last Name"
-          />
-          {errors.lastName && <p className={styles.errorMessage}>{errors.lastName.message}</p>}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            type="date"
-            {...register('dateOfBirth', validationRules.dateOfBirth)}
-            placeholder="Date of Birth"
-          />
-          {errors.dateOfBirth && <p className={styles.errorMessage}>{errors.dateOfBirth.message}</p>}
-        </div>
-      </div>
-      {/* Shipping Address */}
-      <div className={`${styles.shippingAddressContainer} ${styles.formBlockContainer}`}>
-        <h3>Shipping Address</h3>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('shippingAddress.street', validationRules.street)}
-            placeholder="Street"
-          />
-          {errors.shippingAddress?.street && (
-            <p className={styles.errorMessage}>{errors.shippingAddress.street.message}</p>
-          )}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('shippingAddress.city', validationRules.city)}
-            placeholder="City"
-          />
-          {errors.shippingAddress?.city && <p className={styles.errorMessage}>{errors.shippingAddress.city.message}</p>}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <input
-            className={styles.registrationInput}
-            {...register('shippingAddress.postalCode', validationRules.postalCode)}
-            placeholder="Postal Code"
-          />
-          {errors.shippingAddress?.postalCode && (
-            <p className={styles.errorMessage}>{errors.shippingAddress.postalCode.message}</p>
-          )}
-        </div>
-        <div className={styles.registrationInputContainer}>
-          <select
-            className={styles.registrationInput}
-            {...register('shippingAddress.country', validationRules.country)}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select Country
-            </option>
-            {countries.map(({ code, name }) => (
-              <option key={code} value={code}>
-                {code} - {name}
-              </option>
-            ))}
-          </select>
-          {errors.shippingAddress?.country && (
-            <p className={styles.errorMessage}>{errors.shippingAddress.country.message}</p>
-          )}
-        </div>
-        <label className={styles.checkboxLabel}>
-          <input type="checkbox" {...register('defaultShippingAddress')} />
-          Set this address as default shipping address
-        </label>
-      </div>
-      {/* Checkbox for using shipping address as billing address */}
-      <div className={styles.registrationInputContainer}>
-        <label className={styles.checkboxLabel}>
-          <input type="checkbox" {...register('useSameAddress')} />
-          Use shipping address as billing address
-        </label>
-      </div>
-      {/* Billing Address */}
-      {!useSameAddress && (
-        <div className={`${styles.billingAddressContainer} ${styles.formBlockContainer}`}>
-          <h3>Billing Address</h3>
+    <main>
+      <form className={styles.registrationForm} onSubmit={event => void handleSubmit(onSubmit)(event)}>
+        <div className={`${styles.mainInfoContainer}  ${styles.formBlockContainer}`}>
           <div className={styles.registrationInputContainer}>
             <input
               className={styles.registrationInput}
-              {...register('billingAddress.street', validationRules.street)}
+              {...register('email', validationRules.email)}
+              placeholder="Email"
+            />
+            {errors.email && <p className={styles.errorMessage}>{errors.email.message}</p>}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('password', validationRules.password)}
+              placeholder="Password"
+            />
+            {errors.password && <p className={styles.errorMessage}>{errors.password.message}</p>}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('firstName', validationRules.name)}
+              placeholder="First Name"
+            />
+            {errors.firstName && <p className={styles.errorMessage}>{errors.firstName.message}</p>}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('lastName', validationRules.name)}
+              placeholder="Last Name"
+            />
+            {errors.lastName && <p className={styles.errorMessage}>{errors.lastName.message}</p>}
+          </div>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              type="date"
+              {...register('dateOfBirth', validationRules.dateOfBirth)}
+              placeholder="Date of Birth"
+            />
+            {errors.dateOfBirth && <p className={styles.errorMessage}>{errors.dateOfBirth.message}</p>}
+          </div>
+        </div>
+        {/* Shipping Address */}
+        <div className={`${styles.shippingAddressContainer} ${styles.formBlockContainer}`}>
+          <h3>Shipping Address</h3>
+          <div className={styles.registrationInputContainer}>
+            <input
+              className={styles.registrationInput}
+              {...register('shippingAddress.street', validationRules.street)}
               placeholder="Street"
             />
-            {errors.billingAddress?.street && (
-              <p className={styles.errorMessage}>{errors.billingAddress.street.message}</p>
+            {errors.shippingAddress?.street && (
+              <p className={styles.errorMessage}>{errors.shippingAddress.street.message}</p>
             )}
           </div>
           <div className={styles.registrationInputContainer}>
             <input
               className={styles.registrationInput}
-              {...register('billingAddress.city', validationRules.city)}
+              {...register('shippingAddress.city', validationRules.city)}
               placeholder="City"
             />
-            {errors.billingAddress?.city && <p className={styles.errorMessage}>{errors.billingAddress.city.message}</p>}
+            {errors.shippingAddress?.city && (
+              <p className={styles.errorMessage}>{errors.shippingAddress.city.message}</p>
+            )}
           </div>
           <div className={styles.registrationInputContainer}>
             <input
               className={styles.registrationInput}
-              {...register('billingAddress.postalCode', validationRules.postalCode)}
+              {...register('shippingAddress.postalCode', validationRules.postalCode)}
               placeholder="Postal Code"
             />
-            {errors.billingAddress?.postalCode && (
-              <p className={styles.errorMessage}>{errors.billingAddress.postalCode.message}</p>
+            {errors.shippingAddress?.postalCode && (
+              <p className={styles.errorMessage}>{errors.shippingAddress.postalCode.message}</p>
             )}
           </div>
           <div className={styles.registrationInputContainer}>
             <select
               className={styles.registrationInput}
-              {...register('billingAddress.country', validationRules.country)}
+              {...register('shippingAddress.country', validationRules.country)}
               defaultValue=""
             >
               <option value="" disabled>
@@ -191,20 +131,86 @@ export const RegistrationForm: FC = () => {
                 </option>
               ))}
             </select>
-            {errors.billingAddress?.country && (
-              <p className={styles.errorMessage}>{errors.billingAddress.country.message}</p>
+            {errors.shippingAddress?.country && (
+              <p className={styles.errorMessage}>{errors.shippingAddress.country.message}</p>
             )}
           </div>
           <label className={styles.checkboxLabel}>
-            <input type="checkbox" {...register('defaultBillingAddress')} />
-            Set this address as default billing address
+            <input type="checkbox" {...register('defaultShippingAddress')} />
+            Set this address as default shipping address
           </label>
         </div>
-      )}
-      <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>
-        Register
-      </button>
-    </form>
+        {/* Checkbox for using shipping address as billing address */}
+        <div className={styles.registrationInputContainer}>
+          <label className={styles.checkboxLabel}>
+            <input type="checkbox" {...register('useSameAddress')} />
+            Use shipping address as billing address
+          </label>
+        </div>
+        {/* Billing Address */}
+        {!useSameAddress && (
+          <div className={`${styles.billingAddressContainer} ${styles.formBlockContainer}`}>
+            <h3>Billing Address</h3>
+            <div className={styles.registrationInputContainer}>
+              <input
+                className={styles.registrationInput}
+                {...register('billingAddress.street', validationRules.street)}
+                placeholder="Street"
+              />
+              {errors.billingAddress?.street && (
+                <p className={styles.errorMessage}>{errors.billingAddress.street.message}</p>
+              )}
+            </div>
+            <div className={styles.registrationInputContainer}>
+              <input
+                className={styles.registrationInput}
+                {...register('billingAddress.city', validationRules.city)}
+                placeholder="City"
+              />
+              {errors.billingAddress?.city && (
+                <p className={styles.errorMessage}>{errors.billingAddress.city.message}</p>
+              )}
+            </div>
+            <div className={styles.registrationInputContainer}>
+              <input
+                className={styles.registrationInput}
+                {...register('billingAddress.postalCode', validationRules.postalCode)}
+                placeholder="Postal Code"
+              />
+              {errors.billingAddress?.postalCode && (
+                <p className={styles.errorMessage}>{errors.billingAddress.postalCode.message}</p>
+              )}
+            </div>
+            <div className={styles.registrationInputContainer}>
+              <select
+                className={styles.registrationInput}
+                {...register('billingAddress.country', validationRules.country)}
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select Country
+                </option>
+                {countries.map(({ code, name }) => (
+                  <option key={code} value={code}>
+                    {code} - {name}
+                  </option>
+                ))}
+              </select>
+              {errors.billingAddress?.country && (
+                <p className={styles.errorMessage}>{errors.billingAddress.country.message}</p>
+              )}
+            </div>
+            <label className={styles.checkboxLabel}>
+              <input type="checkbox" {...register('defaultBillingAddress')} />
+              Set this address as default billing address
+            </label>
+          </div>
+        )}
+        <button className={styles.registrationButton} type="submit" disabled={!isDirty || !isValid}>
+          Register
+        </button>
+      </form>
+    </main>
   );
 };
 

@@ -4,26 +4,19 @@ import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/
 import { tokenCache } from '../utils/token';
 import { httpMiddlewareOptions } from './middleware-options';
 
-function assertEnvVar(value: string | undefined, name: string): string {
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-  return value;
-}
-
 const authenticateUser = (email: string, password: string): Client => {
   const authMiddlewareOptions: PasswordAuthMiddlewareOptions = {
-    host: assertEnvVar(AUTH_URL, 'AUTH_URL'),
-    projectKey: assertEnvVar(PROJECT_KEY, 'PROJECT_KEY'),
+    host: AUTH_URL,
+    projectKey: PROJECT_KEY,
     credentials: {
-      clientId: assertEnvVar(CLIENT_ID, 'CLIENT_ID'),
-      clientSecret: assertEnvVar(CLIENT_SECRET, 'CLIENT_SECRET'),
+      clientId: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
       user: {
         username: email,
         password: password,
       },
     },
-    scopes: assertEnvVar(SCOPES, 'SCOPES').split(','),
+    scopes: SCOPES.split(','),
     tokenCache: tokenCache,
   };
 

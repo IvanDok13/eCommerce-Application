@@ -1,5 +1,7 @@
+import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { Client, ClientBuilder, PasswordAuthMiddlewareOptions } from '@commercetools/ts-client';
+import type { Client, PasswordAuthMiddlewareOptions } from '@commercetools/ts-client';
+import { ClientBuilder } from '@commercetools/ts-client';
 import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/ecomm-const';
 import { tokenCache } from '../utils/token';
 import { httpMiddlewareOptions } from './middleware-options';
@@ -27,14 +29,14 @@ const authenticateUser = (email: string, password: string): Client => {
     .build();
 };
 
-function authRequestClient(email: string, password: string) {
+function authRequestClient(email: string, password: string): ByProjectKeyRequestBuilder {
   const client = authenticateUser(email, password);
   return createApiBuilderFromCtpClient(client).withProjectKey({
     projectKey: PROJECT_KEY,
   });
 }
 
-export async function authRequestResponse(email: string, password: string) {
+export async function authRequestResponse(email: string, password: string): Promise<any> {
   const authLogin = authRequestClient(email, password);
   return authLogin.me().login().post({ body: { email, password } }).execute();
 }

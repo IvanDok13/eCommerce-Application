@@ -1,4 +1,5 @@
-import { AuthMiddlewareOptions, ClientBuilder, HttpMiddlewareOptions } from '@commercetools/ts-client';
+import type { AuthMiddlewareOptions, HttpMiddlewareOptions } from '@commercetools/ts-client';
+import { ClientBuilder } from '@commercetools/ts-client';
 import { API_URL, AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/ecomm-const.ts';
 import fetch from 'cross-fetch';
 

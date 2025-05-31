@@ -72,7 +72,7 @@ export const LoginForm: FC = () => {
           </label>
           <input
             id="email"
-            type="email"
+            type="text"
             className={styles.input}
             placeholder="example@mail.com"
             data-tooltip-id="email-tooltip"

@@ -1,5 +1,5 @@
 import { Header } from '@components/header/header';
-import { RegistrationForm } from '@components/registration-form/registration-form';
+import { RegistrationForm } from '@components/reg-form/reg-form';
 import type { FC } from 'react';
 import styles from './registration.module.css';
 

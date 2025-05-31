@@ -1,4 +1,4 @@
-import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
+import type { ByProjectKeyRequestBuilder, ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import type { Client, PasswordAuthMiddlewareOptions } from '@commercetools/ts-client';
 import { ClientBuilder } from '@commercetools/ts-client';
@@ -36,7 +36,10 @@ function authRequestClient(email: string, password: string): ByProjectKeyRequest
   });
 }
 
-export async function authRequestResponse(email: string, password: string): Promise<any> {
+export async function authRequestResponse(
+  email: string,
+  password: string
+): Promise<ClientResponse<CustomerSignInResult>> {
   const authLogin = authRequestClient(email, password);
   return authLogin.me().login().post({ body: { email, password } }).execute();
 }

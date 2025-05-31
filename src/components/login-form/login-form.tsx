@@ -1,14 +1,14 @@
 import { authRequestResponse } from '@api/auth-user';
-import { authError } from '@utils/authError';
+import { authError } from '@utils/auth-error';
 import type { FC } from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 import { authContext } from 'src/context/auth-provider';
 import styles from './login-form.module.css';
-import { LoginFormData } from './login-form.types';
+import type { LoginFormData } from './login-form.types';
 
 export const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -38,27 +38,34 @@ export const LoginForm: FC = () => {
   const formSubmit: SubmitHandler<LoginFormData> = async data => {
     try {
       const response = await authRequestResponse(data.email, data.password);
-      setLogin(response.body.customer.email);
+      const customer = response.body.customer;
+      setLogin(customer.email);
       setIsLoginned(true);
-      setCustomerId(response.body.customer.id);
+      setCustomerId(customer.id);
       navigate('/');
     } catch (error) {
       const authApiError = authError(error);
       setApiError(authApiError);
-      if (authApiError?.field === 'email') {
-        setError('email', { type: 'manual', message: authApiError.message });
-      } else if (authApiError?.field === 'password') {
-        setError('password', { type: 'manual', message: authApiError.message });
-      } else if (authApiError?.field === 'general') {
-        setError('email', { type: 'manual', message: authApiError.message });
-        setError('password', { type: 'manual', message: authApiError.message });
+      switch (authApiError?.field) {
+        case 'email':
+          setError('email', { type: 'manual', message: authApiError.message });
+          break;
+        case 'password':
+          setError('password', { type: 'manual', message: authApiError.message });
+          break;
+        case 'general':
+          setError('email', { type: 'manual', message: authApiError.message });
+          setError('password', { type: 'manual', message: authApiError.message });
+          break;
+        default:
+          break;
       }
     }
   };
 
   return (
     <main className={styles.loginContainer}>
-      <form className={styles.loginForm} action="submit" onSubmit={handleSubmit(formSubmit)}>
+      <form className={styles.loginForm} action="submit" onSubmit={event => void handleSubmit(formSubmit)(event)}>
         <div className={styles.formGroup}>
           <label htmlFor="email" className={styles.label}>
             Email
@@ -73,7 +80,7 @@ export const LoginForm: FC = () => {
             {...register('email', {
               required: 'Email is required',
               pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                value: /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,}$/i,
                 message: 'Invalid email format',
               },
             })}

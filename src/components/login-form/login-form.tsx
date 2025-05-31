@@ -1,77 +1,64 @@
-import { getErrorMessage, showErrorToast } from '@utils/utils';
+import { authRequestResponse } from '@api/auth-user';
+import { authError } from '@utils/authError';
 import type { FC } from 'react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useContext, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { loginCustomer } from 'src/api/customers-api';
+import { Tooltip } from 'react-tooltip';
+import { authContext } from 'src/context/auth-provider';
 import styles from './login-form.module.css';
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-const validatePassword = (value: string): string | boolean => {
-  if (!value) return 'Password is required';
-  if (value.length < 8) return 'Password must be at least 8 characters long';
-  if (!/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter';
-  if (!/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter';
-  if (!/\d/.test(value)) return 'Password must contain at least one digit';
-  if (value.trim() !== value) return 'Password must not contain leading or trailing whitespace';
-  return true;
-};
+import { LoginFormData } from './login-form.types';
 
 export const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<LoginFormData>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
+    setError,
+  } = useForm<LoginFormData>({ mode: 'all' });
 
-  const password = watch('password', '');
+  const [apiError, setApiError] = useState<{
+    field: 'email' | 'password' | 'general';
+    message: string;
+  } | null>(null);
 
-  const onSubmit = async (data: LoginFormData): Promise<void> => {
+  const { isLoginned, setLogin, setIsLoginned, setCustomerId } = useContext(authContext);
+
+  useEffect(() => {
+    if (isLoginned) {
+      navigate('/');
+    }
+  }, [isLoginned, navigate]);
+
+  const formSubmit: SubmitHandler<LoginFormData> = async data => {
     try {
-      console.log(data);
-      const response = await loginCustomer(data);
-
-      if (response.statusCode === 200) {
-        navigate('/');
-      } else if (response.statusCode === 400) {
-        console.log(response.statusCode);
-        navigate('/registration');
-      }
-    } catch (error: unknown) {
-      const message = getErrorMessage(error);
-      if (message.includes('Request body does not contain valid JSON')) {
-        showErrorToast(
-          'Some of the data entered is invalid. For security reasons, we cannot tell you which ones. Please check the form and try again.',
-          'rgb(255, 95, 110)'
-        );
-      } else {
-        showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110)');
+      const response = await authRequestResponse(data.email, data.password);
+      setLogin(response.body.customer.email);
+      setIsLoginned(true);
+      setCustomerId(response.body.customer.id);
+      navigate('/');
+    } catch (error) {
+      const authApiError = authError(error);
+      setApiError(authApiError);
+      if (authApiError?.field === 'email') {
+        setError('email', { type: 'manual', message: authApiError.message });
+      } else if (authApiError?.field === 'password') {
+        setError('password', { type: 'manual', message: authApiError.message });
+      } else if (authApiError?.field === 'general') {
+        setError('email', { type: 'manual', message: authApiError.message });
+        setError('password', { type: 'manual', message: authApiError.message });
       }
     }
   };
 
   return (
     <main className={styles.loginContainer}>
-      <h2 className={styles.title}>Login</h2>
-      <form
-        className={styles.loginForm}
-        onSubmit={element => {
-          element.preventDefault();
-          void handleSubmit(onSubmit)(element);
-        }}
-      >
+      <form className={styles.loginForm} action="submit" onSubmit={handleSubmit(formSubmit)}>
         <div className={styles.formGroup}>
           <label htmlFor="email" className={styles.label}>
             Email
@@ -80,16 +67,23 @@ export const LoginForm: FC = () => {
             id="email"
             type="email"
             className={styles.input}
-            placeholder="Email"
+            placeholder="example@mail.com"
+            data-tooltip-id="email-tooltip"
+            data-tooltip-content={errors.email?.message || (apiError?.field === 'email' ? apiError.message : '')}
             {...register('email', {
               required: 'Email is required',
               pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: 'Invalid email format',
               },
             })}
           />
-          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+          <Tooltip
+            id="email-tooltip"
+            place="top"
+            variant="error"
+            isOpen={!!errors.email || apiError?.field === 'email'}
+          />
         </div>
 
         <div className={styles.formGroup}>
@@ -102,37 +96,29 @@ export const LoginForm: FC = () => {
               type={showPassword ? 'text' : 'password'}
               className={styles.input}
               placeholder="Password"
+              data-tooltip-id="password-tooltip"
+              data-tooltip-content={
+                errors.password?.message || (apiError?.field === 'password' ? apiError.message : '')
+              }
               {...register('password', {
-                validate: validatePassword,
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password must be at least 8 characters',
+                },
               })}
             />
-            <button
-              type="button"
-              className={styles.showPasswordButton}
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? '🙈' : '👁️'}
+
+            <button type="button" className={styles.showPasswordButton} onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-          {errors.password && <p className={styles.error}>{errors.password.message}</p>}
-
-          <div className={styles.passwordRequirements}>
-            <p>Password must:</p>
-            <ul>
-              <li className={password.length >= 8 ? styles.requirementMet : ''}>Be at least 8 characters long</li>
-              <li className={/[A-Z]/.test(password) ? styles.requirementMet : ''}>
-                {/* Contain at least one uppercase letter */}
-              </li>
-              <li className={/[a-z]/.test(password) ? styles.requirementMet : ''}>
-                {/* Contain at least one lowercase letter */}
-              </li>
-              <li className={/\d/.test(password) ? styles.requirementMet : ''}>{/* Contain at least one digit */}</li>
-              <li className={password.trim() === password ? styles.requirementMet : ''}>
-                {/* Not contain leading/trailing spaces */}
-              </li>
-            </ul>
-          </div>
+          <Tooltip
+            id="password-tooltip"
+            place="top"
+            variant="error"
+            isOpen={!!errors.password || apiError?.field === 'password'}
+          />
         </div>
 
         <button type="submit" className={styles.submitButton}>

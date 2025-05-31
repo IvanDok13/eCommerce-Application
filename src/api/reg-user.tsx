@@ -1,11 +1,13 @@
 import { httpMiddlewareOptions } from '@api/middleware-options';
+import type { ByProjectKeyRequestBuilder, ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { AuthMiddlewareOptions, ClientBuilder } from '@commercetools/ts-client';
-import { FormData } from '@components/reg-form/reg-form.types';
+import type { AuthMiddlewareOptions, Client } from '@commercetools/ts-client';
+import { ClientBuilder } from '@commercetools/ts-client';
+import type { FormData } from '@components/reg-form/reg-form.types';
 import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/ecomm-const.ts';
 import { tokenCache } from '../utils/token';
 
-const registerUser = () => {
+const registerUser = (): Client => {
   const authMiddlewareOptions: AuthMiddlewareOptions = {
     host: AUTH_URL,
     projectKey: PROJECT_KEY,
@@ -24,14 +26,18 @@ const registerUser = () => {
     .build();
 };
 
-function registrationRequestClient() {
+function registrationRequestClient(): ByProjectKeyRequestBuilder {
   const client = registerUser();
   return createApiBuilderFromCtpClient(client).withProjectKey({
     projectKey: PROJECT_KEY,
   });
 }
 
-export async function registrationRequestResponse(data: FormData, defaultBilling: boolean, defaultShipping: boolean) {
+export async function registrationRequestResponse(
+  data: FormData,
+  defaultBilling: boolean,
+  defaultShipping: boolean
+): Promise<ClientResponse<CustomerSignInResult>> {
   const authLogin = registrationRequestClient();
 
   const defaultBillingIndex = defaultBilling ? 0 : undefined;

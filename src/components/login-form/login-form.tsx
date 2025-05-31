@@ -1,5 +1,6 @@
 import { authRequestResponse } from '@api/auth-user';
 import { authError } from '@utils/auth-error';
+import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -77,17 +78,12 @@ export const LoginForm: FC = () => {
             placeholder="example@mail.com"
             data-tooltip-id="email-tooltip"
             data-tooltip-content={errors.email?.message || (apiError?.field === 'email' ? apiError.message : '')}
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,}$/i,
-                message: 'Invalid email format',
-              },
-            })}
+            {...register('email', validationRules.email)}
           />
           <Tooltip
             id="email-tooltip"
             place="top"
+            style={{ maxWidth: '300px' }}
             variant="error"
             isOpen={!!errors.email || apiError?.field === 'email'}
           />
@@ -107,13 +103,7 @@ export const LoginForm: FC = () => {
               data-tooltip-content={
                 errors.password?.message || (apiError?.field === 'password' ? apiError.message : '')
               }
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password must be at least 8 characters',
-                },
-              })}
+              {...register('password', validationRules.password)}
             />
 
             <button type="button" className={styles.showPasswordButton} onClick={() => setShowPassword(!showPassword)}>
@@ -123,6 +113,7 @@ export const LoginForm: FC = () => {
           <Tooltip
             id="password-tooltip"
             place="top"
+            style={{ maxWidth: '300px' }}
             variant="error"
             isOpen={!!errors.password || apiError?.field === 'password'}
           />

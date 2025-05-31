@@ -1,4 +1,5 @@
-import { Context, createContext } from 'react';
+import type { Context } from 'react';
+import { createContext } from 'react';
 
 export type authContextTupe = {
   login: string;
@@ -9,7 +10,7 @@ export type authContextTupe = {
   setCustomerId: (customerId: string) => void;
 };
 
-const defContext: authContextTupe = {
+const defaultContext: authContextTupe = {
   login: '',
   isLoginned: false,
   customerId: '',
@@ -18,4 +19,4 @@ const defContext: authContextTupe = {
   setCustomerId: () => {},
 };
 
-export const authContext: Context<authContextTupe> = createContext(defContext);
+export const authContext: Context<authContextTupe> = createContext(defaultContext);

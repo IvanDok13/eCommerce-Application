@@ -1,7 +1,11 @@
 import { registrationRequestResponse } from '@api/reg-user';
 import type { CustomerDraft } from '@commercetools/platform-sdk';
 import { countries } from '@utils/countries-const';
-import { getErrorMessage, showErrorToast } from '@utils/utils';
+// import { getErrorMessage, showErrorToast } from '@utils/utils';
+//TEMP (2 lines below)
+import 'toastify-js/src/toastify.css';
+import Toastify from 'toastify-js';
+
 import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -260,4 +264,26 @@ export const mapFormDataToCustomerDraft = (data: FormData): CustomerDraft => {
     defaultShippingAddress,
     defaultBillingAddress,
   };
+};
+
+//TEMP
+
+export const showErrorToast = (errorMessage: string, backgroundColorValue: string): void => {
+  Toastify({
+    text: errorMessage,
+    duration: -1,
+    close: true,
+    gravity: 'top',
+    position: 'center',
+    style: {
+      background: backgroundColorValue,
+    },
+    stopOnFocus: true,
+  }).showToast();
+};
+
+export const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) return error.message;
+  if (typeof error === 'string') return error;
+  return 'An unknown error occurred. Please try later.';
 };

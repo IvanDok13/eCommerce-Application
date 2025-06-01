@@ -13,10 +13,10 @@ export type FormData = {
   };
 
   billingAddress: {
-    street?: string;
-    city?: string;
-    postalCode?: string;
-    country?: string;
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
   };
 
   useSameAddress: boolean;

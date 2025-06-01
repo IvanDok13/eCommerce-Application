@@ -35,7 +35,8 @@
       "@utils/*": ["src/utils/*"],
       "@router/*": ["src/router/*"],
       "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@api/*": ["src/api/*"]
     }
   },
   "include": [

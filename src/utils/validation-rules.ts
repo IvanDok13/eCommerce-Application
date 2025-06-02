@@ -30,9 +30,9 @@ export const validationRules = {
   },
   street: {
     required: 'Street is required',
-    minLength: {
-      value: 1,
-      message: 'Street must contain at least one character',
+    pattern: {
+      value: /^[\d\sA-Za-z]+$/,
+      message: 'Street must contain only letters, numbers, and spaces',
     },
   },
 

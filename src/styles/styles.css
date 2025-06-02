@@ -54,3 +54,16 @@ footer {
   justify-content: center;
   align-items: center;
 }
+
+.show-password {
+  position: absolute;
+  right: 20px;
+  top: 27px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

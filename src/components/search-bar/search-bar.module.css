@@ -1,0 +1,32 @@
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.searchInput {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.searchButton {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #bce8c2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resetButton {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f45d52;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

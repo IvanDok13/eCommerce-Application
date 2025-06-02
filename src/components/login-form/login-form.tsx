@@ -62,64 +62,63 @@ export const LoginForm: FC = () => {
           break;
       }
     }
+    console.log('Form submitted:', data);
   };
 
   return (
     <main className={styles.loginContainer}>
       <form className={styles.loginForm} action="submit" onSubmit={event => void handleSubmit(formSubmit)(event)}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>
-            Email
-          </label>
-          <input
-            id="email"
-            type="text"
-            className={styles.input}
-            placeholder="example@mail.com"
-            data-tooltip-id="email-tooltip"
-            data-tooltip-content={errors.email?.message || (apiError?.field === 'email' ? apiError.message : '')}
-            {...register('email', validationRules.email)}
-          />
+        <div className="formBlockContainer">
+          <div className={styles.registrationInputContainer}>
+            <label htmlFor="email" className={styles.label} form="email">
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              className={styles.input}
+              placeholder="email@gmail.com"
+              data-tooltip-id="tooltip-email"
+              data-tooltip-content={errors.email?.message || (apiError?.field === 'email' ? apiError.message : '')}
+              {...register('email', validationRules.email)}
+            />
+          </div>
           <Tooltip
-            id="email-tooltip"
+            id="tooltip-email"
             place="top"
-            style={{ maxWidth: '300px' }}
             variant="error"
             isOpen={!!errors.email || apiError?.field === 'email'}
           />
-        </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="password" className={styles.label}>
-            Password
-          </label>
-          <div className={styles.passwordInputContainer}>
+          <div className={styles.registrationInputContainer}>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
               className={styles.input}
-              placeholder="Password"
-              data-tooltip-id="password-tooltip"
+              placeholder="Abcde123"
+              data-tooltip-id="tooltip-password"
               data-tooltip-content={
                 errors.password?.message || (apiError?.field === 'password' ? apiError.message : '')
               }
               {...register('password', validationRules.password)}
             />
 
-            <button type="button" className={styles.showPasswordButton} onClick={() => setShowPassword(!showPassword)}>
+            <button type="button" className="show-password" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
           <Tooltip
-            id="password-tooltip"
+            id="tooltip-password"
             place="top"
-            style={{ maxWidth: '300px' }}
             variant="error"
             isOpen={!!errors.password || apiError?.field === 'password'}
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
+        <button type="submit" className="registrationButton">
           Login
         </button>
         <a href="/registration" className={styles.signUpButton}>

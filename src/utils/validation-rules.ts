@@ -3,7 +3,7 @@ export const validationRules = {
     required: 'Email is required',
     pattern: {
       value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      message: 'Invalid email format. Please enter a valid email address (e.g., example@email.com)',
+      message: 'Invalid email format. Valid email format: example@email.com',
     },
   },
   password: {
@@ -11,7 +11,7 @@ export const validationRules = {
     pattern: {
       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
       message:
-        'Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, and 1 number. Special characters are allowed but not required.',
+        'Password must be at least 8 characters long and include at least 1 uppercase, 1 lowercase letter and 1 number',
     },
   },
   name: {

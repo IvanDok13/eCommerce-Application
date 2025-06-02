@@ -20,17 +20,16 @@ export const Catalog: FC = () => {
       <Header />
       {/* Main catalog container */}
       <div className={styles.catalogContainer}>
-        {/* Sidebar for filters */}
         <FilterSidebar />
 
         {/* Main content area */}
         <main className={styles.catalogMain}>
-          {/* Controls for search and sorting */}
-          {<SearchBar />}
-          {<SortControls sortBy={sortBy} setSortBy={setSortBy} />}
-
-          {/* Product list with filters, search, and sorting */}
-          {/* <ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} /> */}
+          <div className={styles.catalogControls}>
+            {<SearchBar />}
+            {<SortControls sortBy={sortBy} setSortBy={setSortBy} />}
+            {/* <ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} /> */}
+          </div>
+          {/* Placeholder for product list */}
         </main>
       </div>
     </div>

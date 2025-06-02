@@ -10,15 +10,20 @@
   flex-direction: row;
   gap: 20px;
   padding: 20px;
-  background-color: greenyellow;
 }
 
 .catalogMain {
   flex-grow: 1;
   padding: 20px;
-
-  /* background-color: #fff; */
+  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
-  background-color: rgb(85 188 248);
+}
+
+.catalogControls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }

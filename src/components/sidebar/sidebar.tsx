@@ -14,114 +14,116 @@ export const FilterSidebar: FC = () => {
       <form className={styles.filterForm}>
         <h3 className={styles.formTitle}>Filters</h3>
         {/* Artist */}
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>Artist:</label>
-          {['Artist1', 'Artist2', 'Artist3'].map(artist => (
-            <label key={artist} className={styles.filterOption}>
-              <input
-                type="checkbox"
-                checked={selectedArtists.includes(artist)}
-                onChange={event =>
-                  setSelectedArtists(previousArtists =>
-                    event.target.checked
-                      ? [...previousArtists, artist]
-                      : previousArtists.filter(existingArtist => existingArtist !== artist)
-                  )
-                }
-              />
-              {artist}
-            </label>
-          ))}
-        </div>
-        {/* Color */}
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>Color:</label>
-          {['Black', 'Red', 'Blue'].map(color => (
-            <label key={color} className={styles.filterOption}>
-              <input
-                type="checkbox"
-                checked={selectedColors.includes(color)}
-                onChange={event =>
-                  setSelectedColors(previousColors =>
-                    event.target.checked
-                      ? [...previousColors, color]
-                      : previousColors.filter(existingColor => existingColor !== color)
-                  )
-                }
-              />
-              {color}
-            </label>
-          ))}
-        </div>
+        <div className={styles.filterItems}>
+          <div className={styles.filterGroup}>
+            <label className={styles.filterLabel}>Artist:</label>
+            {['Artist1', 'Artist2', 'Artist3'].map(artist => (
+              <label key={artist} className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  checked={selectedArtists.includes(artist)}
+                  onChange={event =>
+                    setSelectedArtists(previousArtists =>
+                      event.target.checked
+                        ? [...previousArtists, artist]
+                        : previousArtists.filter(existingArtist => existingArtist !== artist)
+                    )
+                  }
+                />
+                {artist}
+              </label>
+            ))}
+          </div>
+          {/* Color */}
+          <div className={styles.filterGroup}>
+            <label className={styles.filterLabel}>Color:</label>
+            {['Black', 'Red', 'Blue'].map(color => (
+              <label key={color} className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  checked={selectedColors.includes(color)}
+                  onChange={event =>
+                    setSelectedColors(previousColors =>
+                      event.target.checked
+                        ? [...previousColors, color]
+                        : previousColors.filter(existingColor => existingColor !== color)
+                    )
+                  }
+                />
+                {color}
+              </label>
+            ))}
+          </div>
 
-        {/* Size */}
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>Size:</label>
-          {['S', 'M', 'L', 'XL', 'CUSTOM'].map(size => (
-            <label key={size} className={styles.filterOption}>
+          {/* Size */}
+          <div className={styles.filterGroup}>
+            <label className={styles.filterLabel}>Size:</label>
+            {['S', 'M', 'L', 'XL', 'CUSTOM'].map(size => (
+              <label key={size} className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  checked={selectedSizes.includes(size)}
+                  onChange={event =>
+                    setSelectedSizes(previousSizes =>
+                      event.target.checked
+                        ? [...previousSizes, size]
+                        : previousSizes.filter(existingSize => existingSize !== size)
+                    )
+                  }
+                />
+                {size}
+              </label>
+            ))}
+          </div>
+          {/* Placement */}
+          <div className={styles.filterGroup}>
+            <label className={styles.filterLabel}>Placement:</label>
+            {['Arm', 'Back', 'Leg', 'Chest', 'Shoulder'].map(placement => (
+              <label key={placement} className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  checked={selectedPlacements.includes(placement)}
+                  onChange={event =>
+                    setSelectedPlacements(previousPlacements =>
+                      event.target.checked
+                        ? [...previousPlacements, placement]
+                        : previousPlacements.filter(existingPlacement => existingPlacement !== placement)
+                    )
+                  }
+                />
+                {placement}
+              </label>
+            ))}
+          </div>
+          {/* Price Range */}
+          <div className={styles.filterGroup}>
+            <label className={styles.filterLabel}>Price Range:</label>
+            <div className={styles.priceRangeContainer}>
               <input
-                type="checkbox"
-                checked={selectedSizes.includes(size)}
-                onChange={event =>
-                  setSelectedSizes(previousSizes =>
-                    event.target.checked
-                      ? [...previousSizes, size]
-                      : previousSizes.filter(existingSize => existingSize !== size)
-                  )
-                }
+                type="number"
+                placeholder="Min"
+                min="0"
+                value={priceMinimum}
+                onChange={event => setPriceMinimum(event.target.value)}
+                className={styles.priceInput}
               />
-              {size}
-            </label>
-          ))}
-        </div>
-        {/* Placement */}
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>Placement:</label>
-          {['Arm', 'Back', 'Leg', 'Chest', 'Shoulder'].map(placement => (
-            <label key={placement} className={styles.filterOption}>
               <input
-                type="checkbox"
-                checked={selectedPlacements.includes(placement)}
-                onChange={event =>
-                  setSelectedPlacements(previousPlacements =>
-                    event.target.checked
-                      ? [...previousPlacements, placement]
-                      : previousPlacements.filter(existingPlacement => existingPlacement !== placement)
-                  )
-                }
+                type="number"
+                placeholder="Max"
+                min="0"
+                value={priceMaximum}
+                onChange={event => setPriceMaximum(event.target.value)}
+                className={styles.priceInput}
               />
-              {placement}
-            </label>
-          ))}
-        </div>
-        {/* Price Range */}
-        <div className={styles.filterGroup}>
-          <label className={styles.filterLabel}>Price Range:</label>
-          <div className={styles.priceRangeContainer}>
-            <input
-              type="number"
-              placeholder="Min"
-              min="0"
-              value={priceMinimum}
-              onChange={event => setPriceMinimum(event.target.value)}
-              className={styles.priceInput}
-            />
-            <input
-              type="number"
-              placeholder="Max"
-              min="0"
-              value={priceMaximum}
-              onChange={event => setPriceMaximum(event.target.value)}
-              className={styles.priceInput}
-            />
+            </div>
           </div>
         </div>
         {/* Buttons */}
         <div className={styles.buttonGroup}>
-          <button type="submit" className={styles.applyButton}>
+          <button type="submit" className={styles.applyFilterButton}>
             Apply
           </button>
-          <button type="button" className={styles.resetButton}>
+          <button type="button" className={styles.resetFilterButton}>
             Reset
           </button>
         </div>

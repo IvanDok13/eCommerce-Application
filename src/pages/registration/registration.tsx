@@ -6,7 +6,7 @@ import styles from './registration.module.css';
 export const Registration: FC = () => (
   <div className={styles.home}>
     <Header />
-    <h1 className={styles.title}>Registration Page</h1>
+    <h1 className={styles.pageTitle}>Registration Page</h1>
     <RegistrationForm />
   </div>
 );

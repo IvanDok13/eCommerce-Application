@@ -54,3 +54,30 @@ footer {
   justify-content: center;
   align-items: center;
 }
+
+.show-password {
+  position: absolute;
+  right: 20px;
+  top: 27px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tooltip,
+#tooltip-email,
+#tooltip-password {
+  max-width: 350px;
+  font-size: 14px;
+  background-color: hsl(0deg 91% 64%);
+  position: absolute;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+}

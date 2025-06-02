@@ -3,6 +3,7 @@ import styles from './catalog.module.css';
 import { type FC, useState } from 'react';
 import { FilterSidebar } from '@components/sidebar/sidebar';
 import { SearchBar } from '@components/search-bar/search-bar';
+import { SortControls } from '@components/sort-controls/sort-controls';
 // import { SearchBar } from '@components/searchbar/searchbar'; // TODO: Implement SearchBar
 // import { SortControls } from '@components/sortcontrols/sortcontrols'; // TODO: Implement SortControls
 // import { ProductList } from '@components/productlist/productlist'; // TODO: Implement ProductList
@@ -26,7 +27,7 @@ export const Catalog: FC = () => {
         <main className={styles.catalogMain}>
           {/* Controls for search and sorting */}
           {<SearchBar />}
-          {/* <SortControls sortBy={sortBy} setSortBy={setSortBy} /> */}
+          {<SortControls sortBy={sortBy} setSortBy={setSortBy} />}
 
           {/* Product list with filters, search, and sorting */}
           {/* <ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} /> */}

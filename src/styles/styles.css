@@ -68,7 +68,10 @@ footer {
   justify-content: center;
 }
 
-#tooltip {
+#tooltip,
+#tooltip-email,
+#tooltip-password {
+  max-width: 350px;
   font-size: 14px;
   background-color: hsl(0deg 91% 64%);
   position: absolute;

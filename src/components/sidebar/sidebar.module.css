@@ -1,0 +1,67 @@
+.sidebar {
+  width: 250px;
+  padding: 16px;
+  border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.filterForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.formTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.filterGroup {
+  margin-bottom: 16px;
+}
+
+.filterLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 4px 8px;
+}
+
+.filterOption {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.priceRangeContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.priceInput {
+  width: 100%;
+  padding: 4px 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.applyButton {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.resetButton {
+  background-color: #ccc;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}

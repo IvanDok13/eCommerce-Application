@@ -1,6 +1,7 @@
 import { NotFoundPage } from '@pages/404/not-found-page';
 import { Home } from '@pages/home/home';
 import { Login } from '@pages/login/login';
+import { Profile } from '@pages/profile/profile-page';
 import { Registration } from '@pages/registration/registration';
 import type { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -13,6 +14,7 @@ export const AppRouter: FC = () => (
       <Route path={AppRoutes.LOGIN_ROUTE} element={<Login />} />
       <Route path={AppRoutes.REGISTRATION_ROUTE} element={<Registration />} />
       <Route path={AppRoutes.EROR_ROUTE} element={<NotFoundPage />} />
+      <Route path={AppRoutes.USER_PROFILE_ROUTE} element={<Profile />} />
     </Routes>
   </BrowserRouter>
 );

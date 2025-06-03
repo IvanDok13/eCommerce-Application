@@ -10,27 +10,30 @@ export interface Product {
   description?: string;
 }
 
+export interface Filters {
+  artists: string[];
+  colors: string[];
+  sizes: string[];
+  priceMin: string;
+  priceMax: string;
+}
+
 export interface ProductListProps {
-  filters: {
-    // Define filter fields as needed, e.g.:
-    // selectedArtists: string[];
-    // selectedColors: string[];
-    // priceRange: { min: number; max: number };
-  };
+  filters: Filters;
   sortBy: string;
   searchQuery: string;
 }
 
-const subCategories = [
-  'Realism',
-  'Graphics and illustration',
-  'Traditional tattoo',
-  'black & grey realism',
-  'color realism',
-  'micro-realism',
-  'linework',
-  'etching & engraving',
-];
+// const subCategories = [
+//   'Realism',
+//   'Graphics and illustration',
+//   'Traditional tattoo',
+//   'black & grey realism',
+//   'color realism',
+//   'micro-realism',
+//   'linework',
+//   'etching & engraving',
+// ];
 
 export const mockProducts: Product[] = [
   {

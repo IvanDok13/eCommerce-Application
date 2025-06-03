@@ -3,24 +3,25 @@ import styles from './product-list.module.css';
 import { ProductCard } from '@components/product-card/product-card';
 import { type ProductListProps, mockProducts } from './product-list.types';
 
-export const ProductList: FC<ProductListProps> = () => {
-  // { filters, sortBy, searchQuery }
-  // Mock product data for now //
+export const ProductList: FC<ProductListProps> = ({ filters }) => {
+  const { artists, colors, sizes, priceMin, priceMax } = filters;
 
-  // Apply filtering (for later)
-  let filteredProducts = mockProducts; // You can add filtering logic here
+  const filteredProducts = mockProducts.filter(product => {
+    const matchArtist = artists.length === 0 || artists.includes(product.artist);
 
-  // Apply search query (for later)
-  // filteredProducts = filteredProducts.filter(product =>
-  //   product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
+    const productColor =
+      product.color.toLowerCase().includes('black') || product.color.toLowerCase().includes('grey')
+        ? 'black-white'
+        : 'colored';
+    const matchColor = colors.length === 0 || colors.includes(productColor);
 
-  // Apply sorting (for later)
-  // filteredProducts = filteredProducts.sort((a, b) => {
-  //   if (sortBy === 'price') return a.price - b.price;
-  //   if (sortBy === 'name') return a.name.localeCompare(b.name);
-  //   return 0;
-  // });
+    const matchSize = sizes.length === 0 || sizes.includes(product.size);
+
+    const matchPriceMin = !priceMin || product.price >= Number(priceMin);
+    const matchPriceMax = !priceMax || product.price <= Number(priceMax);
+
+    return matchArtist && matchColor && matchSize && matchPriceMin && matchPriceMax;
+  });
 
   return (
     <div className={styles.productList}>

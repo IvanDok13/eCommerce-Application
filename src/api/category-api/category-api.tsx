@@ -1,7 +1,6 @@
 import { type Category } from '@commercetools/platform-sdk';
-import { apiRoot } from './api-root';
-
-export type CategoryTreeItem = Category & { children: CategoryTreeItem[] };
+import { apiRoot } from '../api-root';
+import { type CategoryTreeItem } from './category-api.types';
 
 export const getAllCategories = async (): Promise<Category[]> => {
   try {

@@ -1,5 +1,6 @@
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import styles from './sidebar.module.css';
+import { mockProducts } from '@components/product-list/product-list.types';
 
 export const FilterSidebar: FC = () => {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
@@ -9,6 +10,32 @@ export const FilterSidebar: FC = () => {
   const [priceMinimum, setPriceMinimum] = useState('');
   const [priceMaximum, setPriceMaximum] = useState('');
 
+  // getting unique values for artists, colors, sizes, and placements
+
+  const artists = useMemo(() => {
+    const unique = new Set<string>();
+    mockProducts.forEach(product => unique.add(product.artist));
+    return [...unique].sort();
+  }, []);
+  const colors = useMemo(() => {
+    const unique = new Set<string>();
+    mockProducts.forEach(product => {
+      const c = product.color.toLowerCase();
+      if (c.includes('black') || c.includes('grey') || c === 'black-white') {
+        unique.add('black-white');
+      } else {
+        unique.add('colored');
+      }
+    });
+    return [...unique].sort();
+  }, []);
+
+  const sizes = useMemo(() => {
+    const unique = new Set<string>();
+    mockProducts.forEach(product => unique.add(product.size));
+    return [...unique].sort();
+  }, []);
+
   return (
     <aside className={styles.sidebar}>
       <form className={styles.filterForm}>
@@ -17,7 +44,7 @@ export const FilterSidebar: FC = () => {
         <div className={styles.filterItems}>
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Artist:</label>
-            {['Artist1', 'Artist2', 'Artist3'].map(artist => (
+            {artists.map(artist => (
               <label key={artist} className={styles.filterOption}>
                 <input
                   type="checkbox"
@@ -37,7 +64,7 @@ export const FilterSidebar: FC = () => {
           {/* Color */}
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Color:</label>
-            {['Black', 'Red', 'Blue'].map(color => (
+            {colors.map(color => (
               <label key={color} className={styles.filterOption}>
                 <input
                   type="checkbox"
@@ -58,7 +85,7 @@ export const FilterSidebar: FC = () => {
           {/* Size */}
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Size:</label>
-            {['S', 'M', 'L', 'XL', 'CUSTOM'].map(size => (
+            {sizes.map(size => (
               <label key={size} className={styles.filterOption}>
                 <input
                   type="checkbox"

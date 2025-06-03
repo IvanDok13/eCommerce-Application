@@ -75,26 +75,6 @@ export const FilterSidebar: FC = () => {
               </label>
             ))}
           </div>
-          {/* Placement */}
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Placement:</label>
-            {['Arm', 'Back', 'Leg', 'Chest', 'Shoulder'].map(placement => (
-              <label key={placement} className={styles.filterOption}>
-                <input
-                  type="checkbox"
-                  checked={selectedPlacements.includes(placement)}
-                  onChange={event =>
-                    setSelectedPlacements(previousPlacements =>
-                      event.target.checked
-                        ? [...previousPlacements, placement]
-                        : previousPlacements.filter(existingPlacement => existingPlacement !== placement)
-                    )
-                  }
-                />
-                {placement}
-              </label>
-            ))}
-          </div>
           {/* Price Range */}
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Price Range:</label>

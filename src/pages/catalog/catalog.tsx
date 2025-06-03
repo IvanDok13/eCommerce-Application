@@ -1,30 +1,80 @@
-import { Header } from '@components/header/header';
+import { type FC, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
 import styles from './catalog.module.css';
-import { type FC, useState } from 'react';
+
+import { Header } from '@components/header/header';
 import { FilterSidebar } from '@components/sidebar/sidebar';
 import { SearchBar } from '@components/search-bar/search-bar';
 import { SortControls } from '@components/sort-controls/sort-controls';
 import { ProductList } from '@components/product-list/product-list';
+import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
+
+import { fetchCategoryTree, findCategoryBySlug, findRootCategory } from '@api/category-api/category-api';
+import { type CategoryTreeItem } from '@api/category-api/category-api.types';
 
 export const Catalog: FC = () => {
-  const [filters, setFilters] = useState({
-    // Add filter state fields as needed
-  });
-  const [sortBy, setSortBy] = useState('price'); // Default sorting by price
+  const { categorySlug } = useParams<{ categorySlug: string }>();
+  const navigate = useNavigate();
+
+  const [categoryTree, setCategoryTree] = useState<CategoryTreeItem[] | null>(null);
+  const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState('price');
   const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({});
+
+  useEffect(() => {
+    const loadCategories = async (): Promise<void> => {
+      try {
+        const tree = await fetchCategoryTree();
+        setCategoryTree(tree);
+        console.log('categorySlug from URL:', categorySlug);
+
+        if (!categorySlug) {
+          const rootCategory = findRootCategory(tree);
+          const rootSlug = rootCategory?.slug?.['en-US'];
+          if (rootSlug) {
+            navigate(`/catalog/${rootSlug}`, { replace: true });
+            return;
+          }
+        }
+
+        if (categorySlug) {
+          const matchedCategory = findCategoryBySlug(tree, categorySlug);
+          if (matchedCategory) {
+            setCurrentCategoryId(matchedCategory.id);
+          } else {
+            console.warn('Category not found for slug:', categorySlug);
+            setCurrentCategoryId(null);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch category tree:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadCategories();
+  }, [categorySlug, navigate]);
+
+  if (loading) return <div>Loading categories...</div>;
+  if (!categoryTree || categoryTree.length === 0) return <div>No categories found</div>;
+  if (!currentCategoryId) return <div>Category not found</div>;
 
   return (
     <div className={styles.catalogPage}>
       <Header />
       <div className={styles.catalogContainer}>
         <FilterSidebar />
-        {/* Main content area */}
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
-            {<SearchBar />}
-            {<SortControls sortBy={sortBy} setSortBy={setSortBy} />}
+            <SearchBar />
+            <SortControls sortBy={sortBy} setSortBy={setSortBy} />
+            <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
           </div>
-          {<ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} />}
+          <ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} />
         </div>
       </div>
     </div>

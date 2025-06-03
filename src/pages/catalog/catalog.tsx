@@ -12,6 +12,7 @@ import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
 
 import { fetchCategoryTree, findCategoryBySlug, findRootCategory } from '@api/category-api/category-api';
 import { type CategoryTreeItem } from '@api/category-api/category-api.types';
+import { type Filters } from '@components/product-list/product-list.types';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -22,7 +23,13 @@ export const Catalog: FC = () => {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('price');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<Filters>({
+    artists: [],
+    colors: [],
+    sizes: [],
+    priceMin: '',
+    priceMax: '',
+  });
 
   useEffect(() => {
     const loadCategories = async (): Promise<void> => {
@@ -67,7 +74,7 @@ export const Catalog: FC = () => {
     <div className={styles.catalogPage}>
       <Header />
       <div className={styles.catalogContainer}>
-        <FilterSidebar />
+        <FilterSidebar onApply={setFilters} />
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
             <SearchBar />

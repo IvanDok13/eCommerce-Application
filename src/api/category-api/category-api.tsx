@@ -46,3 +46,18 @@ export const fetchCategoryTree = async (): Promise<CategoryTreeItem[]> => {
 export const findRootCategory = (tree: CategoryTreeItem[]): CategoryTreeItem | null => {
   return tree.find(cat => !cat.parent) ?? null;
 };
+
+export const findCategoryBySlug = (
+  nodes: CategoryTreeItem[],
+  slug: string,
+  locale = 'en-US'
+): CategoryTreeItem | null => {
+  for (const node of nodes) {
+    if (node.slug?.[locale] === slug) return node;
+    if (node.children) {
+      const found = findCategoryBySlug(node.children, slug, locale);
+      if (found) return found;
+    }
+  }
+  return null;
+};

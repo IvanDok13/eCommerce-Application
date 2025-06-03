@@ -1,8 +1,8 @@
-import { type FC, useMemo, useState } from 'react';
+import React, { type FC, useMemo, useState } from 'react';
 import styles from './sidebar.module.css';
-import { mockProducts } from '@components/product-list/product-list.types';
+import { type Filters, mockProducts } from '@components/product-list/product-list.types';
 
-export const FilterSidebar: FC = () => {
+export const FilterSidebar: FC<{ onApply: (filters: Filters) => void }> = ({ onApply }) => {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -36,9 +36,20 @@ export const FilterSidebar: FC = () => {
     return [...unique].sort();
   }, []);
 
+  const handleSubmit = (event: React.FormEvent): void => {
+    event.preventDefault();
+    onApply({
+      artists: selectedArtists,
+      colors: selectedColors,
+      sizes: selectedSizes,
+      priceMin: priceMinimum,
+      priceMax: priceMaximum,
+    });
+  };
+
   return (
     <aside className={styles.sidebar}>
-      <form className={styles.filterForm}>
+      <form onSubmit={handleSubmit} className={styles.filterForm}>
         <h3 className={styles.formTitle}>Filters</h3>
         {/* Artist */}
         <div className={styles.filterItems}>

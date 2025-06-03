@@ -3,5 +3,7 @@ export enum AppRoutes {
   LOGIN_ROUTE = '/login',
   REGISTRATION_ROUTE = '/registration',
   CATALOG_ROUTE = '/catalog',
-  EROR_ROUTE = '*',
+  CATALOG_CATEGORY_ROUTE = '/catalog/:categorySlug',
+  // TO DO: implement this - CATALOG_CATEGORY_ROUTE = '/catalog/*',
+  ERROR_ROUTE = '*',
 }

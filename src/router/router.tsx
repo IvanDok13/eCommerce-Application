@@ -14,7 +14,8 @@ export const AppRouter: FC = () => (
       <Route path={AppRoutes.LOGIN_ROUTE} element={<Login />} />
       <Route path={AppRoutes.REGISTRATION_ROUTE} element={<Registration />} />
       <Route path={AppRoutes.CATALOG_ROUTE} element={<Catalog />} />
-      <Route path={AppRoutes.EROR_ROUTE} element={<NotFoundPage />} />
+      <Route path={AppRoutes.CATALOG_CATEGORY_ROUTE} element={<Catalog />} />
+      <Route path={AppRoutes.ERROR_ROUTE} element={<NotFoundPage />} />
     </Routes>
   </BrowserRouter>
 );

@@ -77,7 +77,7 @@ export const Catalog: FC = () => {
         <FilterSidebar onApply={setFilters} />
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
-            <SearchBar />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <SortControls sortBy={sortBy} setSortBy={setSortBy} />
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
           </div>

@@ -42,3 +42,7 @@ export const fetchCategoryTree = async (): Promise<CategoryTreeItem[]> => {
   const categories = await getAllCategories();
   return buildCategoryTree(categories);
 };
+
+export const findRootCategory = (tree: CategoryTreeItem[]): CategoryTreeItem | null => {
+  return tree.find(cat => !cat.parent) ?? null;
+};

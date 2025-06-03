@@ -130,7 +130,17 @@ export const FilterSidebar: FC = () => {
           <button type="submit" className={styles.applyFilterButton}>
             Apply
           </button>
-          <button type="button" className={styles.resetFilterButton}>
+          <button
+            type="button"
+            className={styles.resetFilterButton}
+            onClick={() => {
+              setSelectedArtists([]);
+              setSelectedColors([]);
+              setSelectedSizes([]);
+              setPriceMinimum('');
+              setPriceMaximum('');
+            }}
+          >
             Reset
           </button>
         </div>

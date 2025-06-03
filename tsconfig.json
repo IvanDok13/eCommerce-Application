@@ -35,8 +35,16 @@
       "@utils/*": ["src/utils/*"],
       "@router/*": ["src/router/*"],
       "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@api/*": ["src/api/*"]
     }
   },
-  "include": ["src", "declaration.d.ts", "global.d.ts", "./dts-bundle-generator.config.ts", "ct-config.ts"]
+  "include": [
+    "src",
+    "declaration.d.ts",
+    "global.d.ts",
+    "./dts-bundle-generator.config.ts",
+    "ct-config.ts",
+    "vitest.config.ts"
+  ]
 }

@@ -1,105 +1,130 @@
-import { useForm } from 'react-hook-form';
+import { authRequestResponse } from '@api/auth-user';
+import { authError } from '@utils/auth-error';
+import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { loginCustomer } from 'src/api/customers-api';
+import { Tooltip } from 'react-tooltip';
+import { authContext } from 'src/context/auth-provider';
 import styles from './login-form.module.css';
-import type { LoginFormData } from './type-login-form';
-import { getErrorMessage, showErrorToast } from '@utils/utils';
+import type { LoginFormData } from './login-form.types';
 
 export const LoginForm: FC = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<LoginFormData>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
+  } = useForm<LoginFormData>({ mode: 'all' });
 
-  const onSubmit = async (data: LoginFormData): Promise<void> => {
-    try {
-      console.log(data);
-      const response = await loginCustomer(data);
+  const [apiError, setApiError] = useState<{
+    field: 'email' | 'password' | 'general';
+    message: string;
+  } | null>(null);
 
-      if (response.statusCode === 200) {
-        navigate('/');
-      } else if (response.statusCode === 400) {
-        console.log(response.statusCode);
-        navigate('/registration');
-      }
-    } catch (error) {
-      const message = getErrorMessage(error);
-      if (message.includes('Request body does not contain valid JSON')) {
-        showErrorToast(
-          'Some of the data entered is invalid. For security reasons, we cannot tell you which ones. Please check the form and try again.',
-          'rgb(255, 95, 110)'
-        );
-      } else showErrorToast(getErrorMessage(error), 'rgb(255, 95, 110');
+  const { isLoginned, setLogin, setIsLoginned, setCustomerId } = useContext(authContext);
+
+  useEffect(() => {
+    if (isLoginned) {
+      navigate('/');
     }
+  }, [isLoginned, navigate]);
+
+  const formSubmit: SubmitHandler<LoginFormData> = async data => {
+    try {
+      const response = await authRequestResponse(data.email, data.password);
+      const customer = response.body.customer;
+      setLogin(customer.email);
+      setIsLoginned(true);
+      setCustomerId(customer.id);
+      navigate('/');
+    } catch (error) {
+      const authApiError = authError(error);
+      setApiError(authApiError);
+      switch (authApiError?.field) {
+        case 'email':
+          setError('email', { type: 'manual', message: authApiError.message });
+          break;
+        case 'password':
+          setError('password', { type: 'manual', message: authApiError.message });
+          break;
+        case 'general':
+          setError('email', { type: 'manual', message: authApiError.message });
+          setError('password', { type: 'manual', message: authApiError.message });
+          break;
+        default:
+          break;
+      }
+    }
+    console.log('Form submitted:', data);
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <h2 className={styles.title}>Login</h2>
-      <form
-        className={styles.loginForm}
-        onSubmit={event => {
-          void handleSubmit(onSubmit)(event);
-        }}
-      >
-        <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            className={styles.input}
-            placeholder="Email"
-            {...register('email', {
-              required: 'Email required',
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: 'Invalid email format',
-              },
-            })}
+    <main className={styles.loginContainer}>
+      <form className={styles.loginForm} action="submit" onSubmit={event => void handleSubmit(formSubmit)(event)}>
+        <div className="formBlockContainer">
+          <div className={styles.registrationInputContainer}>
+            <label htmlFor="email" className={styles.label} form="email">
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              className={styles.input}
+              placeholder="email@gmail.com"
+              data-tooltip-id="tooltip-email"
+              data-tooltip-content={errors.email?.message || (apiError?.field === 'email' ? apiError.message : '')}
+              {...register('email', validationRules.email)}
+            />
+          </div>
+          <Tooltip
+            id="tooltip-email"
+            place="top"
+            variant="error"
+            isOpen={!!errors.email || apiError?.field === 'email'}
           />
-          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+
+          <div className={styles.registrationInputContainer}>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className={styles.input}
+              placeholder="Abcde123"
+              data-tooltip-id="tooltip-password"
+              data-tooltip-content={
+                errors.password?.message || (apiError?.field === 'password' ? apiError.message : '')
+              }
+              {...register('password', validationRules.password)}
+            />
+
+            <button type="button" className="show-password" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          <Tooltip
+            id="tooltip-password"
+            place="top"
+            variant="error"
+            isOpen={!!errors.password || apiError?.field === 'password'}
+          />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="password" className={styles.label}>
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            className={styles.input}
-            placeholder="Password"
-            {...register('password', {
-              required: 'password required',
-              minLength: {
-                value: 6,
-                message: 'The password must be at least 6 characters long',
-              },
-            })}
-          />
-          {errors.password && <p className={styles.error}>{errors.password.message}</p>}
-        </div>
-
-        {errors.root && <p className={styles.error}>{errors.root.message}</p>}
-
-        <button type="submit" className={styles.submitButton}>
+        <button type="submit" className="registrationButton">
           Login
         </button>
-        <a type="button" href="/registration" className={styles.submitButton}>
+        <a href="/registration" className={styles.signUpButton}>
           Sign up
         </a>
       </form>
-    </div>
+    </main>
   );
 };

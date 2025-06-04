@@ -1,0 +1,13 @@
+.sortControlsContainer {
+  margin-bottom: 1rem;
+}
+
+.sortLabel {
+  margin-right: 0.5rem;
+}
+
+.sortSelect {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

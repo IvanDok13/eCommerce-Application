@@ -17,13 +17,11 @@ export const Header: FC = () => (
               Home
             </a>
           </li>
-
-          {/* <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="design">
-              Design
+          <li className={styles.headerItem}>
+            <a className={styles.headerLink} href="catalog">
+              Catalog
             </a>
-          </li> */}
-
+          </li>
           <li className={styles.headerItem}>
             <a className={styles.headerLink} href="about">
               About

@@ -9,3 +9,17 @@ export interface ProductRenderData {
   color: string;
   description: string;
 }
+
+export interface ProductQueryParameters {
+  limit?: number;
+  categoryId?: string;
+  filters?: {
+    artists?: string[];
+    colors?: string[];
+    sizes?: string[];
+    priceMin?: number;
+    priceMax?: number;
+  };
+  sortBy?: 'price' | '-price' | 'name' | '-name';
+  searchQuery?: string;
+}

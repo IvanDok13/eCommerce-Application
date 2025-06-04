@@ -11,10 +11,11 @@ import { ProductList } from '@components/product-list/product-list';
 import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
 
 import { fetchCategoryTree, findCategoryBySlug, findRootCategory } from '@api/category-api/category-api';
-import { fetchProducts, mapProductToRenderData } from '@api/products-api/products-api';
+import { fetchProducts, getRenderArray, mapProductToRenderData } from '@api/products-api/products-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
-import type { ProductRenderData } from '@api/products-api/products-api.types';
+import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
 import type { Filters } from '@components/product-list/product-list.types';
+import { get } from 'lodash';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -27,14 +28,14 @@ export const Catalog: FC = () => {
   const [products, setProducts] = useState<ProductRenderData[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const [sortBy, setSortBy] = useState('price');
+  const [sortBy, setSortBy] = useState<SortByOption>('price');
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<Filters>({
     artists: [],
     colors: [],
     sizes: [],
-    priceMin: '',
-    priceMax: '',
+    priceMin: undefined,
+    priceMax: undefined,
   });
 
   // Categories Loading
@@ -67,13 +68,19 @@ export const Catalog: FC = () => {
     void loadCategories();
   }, [categorySlug, navigate]);
 
-  // all Products Loading
+  // Products Loading
   useEffect(() => {
     const loadProducts = async (): Promise<void> => {
       setLoadingProducts(true);
       try {
-        const fetchedProducts = await fetchProducts({ limit: 25 });
-        const mappedProducts = fetchedProducts.map(mapProductToRenderData);
+        const fetchedProducts = await fetchProducts(25, currentCategoryId ?? '');
+        const mappedProducts = getRenderArray(fetchedProducts, {
+          limit: 25,
+          filters,
+          sortBy,
+          searchQuery,
+          categoryId: currentCategoryId ?? undefined,
+        });
         setProducts(mappedProducts);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -83,7 +90,7 @@ export const Catalog: FC = () => {
     };
 
     void loadProducts();
-  }, []);
+  }, [filters, sortBy, searchQuery, currentCategoryId]);
 
   if (loadingCategories) return <div>Loading categories...</div>;
   if (!categoryTree || categoryTree.length === 0) return <div>No categories found</div>;
@@ -97,7 +104,7 @@ export const Catalog: FC = () => {
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <SortControls sortBy={sortBy} setSortBy={setSortBy} />
+            {/* <SortControls sortBy={sortBy} setSortBy={setSortBy} />   */}
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
           </div>
 

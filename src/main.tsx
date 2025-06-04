@@ -1,4 +1,3 @@
-import Logger from '@api/products-api/logger';
 import { AppRouter } from '@router/router';
 import '@styles/styles.css';
 import { StrictMode } from 'react';
@@ -14,6 +13,5 @@ if (!(root instanceof HTMLElement)) {
 createRoot(document.querySelector('#app')!).render(
   <StrictMode>
     <AppRouter />
-    <Logger />
   </StrictMode>
 );

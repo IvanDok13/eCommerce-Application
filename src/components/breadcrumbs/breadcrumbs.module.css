@@ -1,0 +1,24 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  gap: 4px;
+}
+
+.breadcrumbItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.separator {
+  margin: 0 6px;
+  color: #aaa;
+  user-select: none;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}

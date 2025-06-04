@@ -1,0 +1,29 @@
+.catalogPage {
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.catalogContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+}
+
+.catalogMain {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+}
+
+.catalogControls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}

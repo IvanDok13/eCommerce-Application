@@ -104,7 +104,7 @@ export const Catalog: FC = () => {
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            {/* <SortControls sortBy={sortBy} setSortBy={setSortBy} />   */}
+            <SortControls sortBy={sortBy} setSortBy={setSortBy} />
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
           </div>
 

@@ -2,7 +2,7 @@ export interface ProductRenderData {
   id: string;
   name: string;
   slug: string;
-  price: string;
+  price: number;
   imageUrls: string[];
   artist: string;
   size: string;

@@ -34,7 +34,7 @@ export const mapProductToRenderData = (product: Product): ProductRenderData => {
   const size = getAttributeValue('tattoo-size');
   const color = getAttributeValue('tattoo-color');
   const priceObject = current.masterVariant.prices?.[0]?.value;
-  const price = priceObject ? `${(priceObject.centAmount / 100).toFixed(2)} ${priceObject.currencyCode}` : 'N/A';
+  const price = priceObject ? priceObject.centAmount : 0;
 
   return {
     id,

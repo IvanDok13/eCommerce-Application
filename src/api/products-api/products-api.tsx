@@ -1,16 +1,63 @@
 import { apiRoot } from '../api-root';
 import type { Product } from '@commercetools/platform-sdk';
-import type { ProductRenderData } from './products-api.types';
+import type { ProductQueryParameters, ProductRenderData } from './products-api.types';
 
-export const fetchProducts = async (limit = 50): Promise<Product[]> => {
-  const response = await apiRoot.products().get({ queryArgs: { limit } }).execute();
+export const fetchProducts = async (parameters: ProductQueryParameters): Promise<Product[]> => {
+  const { limit = 25, categoryId, filters, sortBy, searchQuery } = parameters;
+
+  const queryArguments: Record<string, any> = {
+    limit,
+  };
+
+  if (searchQuery) {
+    queryArguments['text.en-US'] = searchQuery;
+  }
+
+  const filterArguments: string[] = [];
+
+  if (categoryId) {
+    filterArguments.push(`categories.id:"${categoryId}"`);
+  }
+
+  if (filters?.artists?.length) {
+    filters.artists.forEach(artist => filterArguments.push(`variants.attributes.artist-name:"${artist}"`));
+  }
+
+  if (filters?.colors?.length) {
+    filters.colors.forEach(color => filterArguments.push(`variants.attributes.tattoo-color:"${color}"`));
+  }
+
+  if (filters?.sizes?.length) {
+    filters.sizes.forEach(size => filterArguments.push(`variants.attributes.tattoo-size:"${size}"`));
+  }
+
+  if (filters?.priceMin || filters?.priceMax) {
+    const min = filters.priceMin || '0';
+    const max = filters.priceMax || '999999';
+    filterArguments.push(`variants.price.centAmount:range (${Number(min) * 100} to ${Number(max) * 100})`);
+  }
+
+  if (filterArguments.length > 0) {
+    queryArguments.filter = filterArguments;
+  }
+
+  if (sortBy) {
+    queryArguments.sort = {
+      price: 'price asc',
+      '-price': 'price desc',
+      name: 'name.en-US asc',
+      '-name': 'name.en-US desc',
+    }[sortBy];
+  }
+
+  const response = await apiRoot.products().get({ queryArgs: queryArguments }).execute();
 
   return response.body.results;
 };
 
 export const mapProductToRenderData = (product: Product): ProductRenderData => {
   const { id, masterData } = product;
-  const current = masterData.current;
+  const current = masterData?.current ?? null;
 
   const name = current.name['en-US'] ?? 'No name';
   const slug = current.slug['en-US'] ?? 'no-slug';

@@ -72,7 +72,7 @@ export const Catalog: FC = () => {
     const loadProducts = async (): Promise<void> => {
       setLoadingProducts(true);
       try {
-        const fetchedProducts = await fetchProducts(25);
+        const fetchedProducts = await fetchProducts({ limit: 25 });
         const mappedProducts = fetchedProducts.map(mapProductToRenderData);
         setProducts(mappedProducts);
       } catch (error) {

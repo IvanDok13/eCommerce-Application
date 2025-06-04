@@ -1,3 +1,5 @@
+import type { SortByOption } from '@api/products-api/products-api.types';
+
 export interface Product {
   id: string;
   name: string;
@@ -11,16 +13,24 @@ export interface Product {
 }
 
 export interface Filters {
-  artists: string[];
-  colors: string[];
-  sizes: string[];
-  priceMin: string;
-  priceMax: string;
+  artists?: string[];
+  colors?: string[];
+  sizes?: string[];
+  priceMin?: number;
+  priceMax?: number;
+}
+
+export interface ApiFilters {
+  artists?: string[];
+  colors?: string[];
+  sizes?: string[];
+  priceMin?: number;
+  priceMax?: number;
 }
 
 export interface ProductListProps {
   filters: Filters;
-  sortBy: string;
+  sortBy: SortByOption;
   searchQuery: string;
 }
 

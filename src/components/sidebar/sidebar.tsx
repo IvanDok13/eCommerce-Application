@@ -6,7 +6,6 @@ export const FilterSidebar: FC<{ onApply: (filters: Filters) => void }> = ({ onA
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedPlacements, setSelectedPlacements] = useState<string[]>([]);
   const [priceMinimum, setPriceMinimum] = useState('');
   const [priceMaximum, setPriceMaximum] = useState('');
 
@@ -38,12 +37,15 @@ export const FilterSidebar: FC<{ onApply: (filters: Filters) => void }> = ({ onA
 
   const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
+    const priceMin = priceMinimum ? Number(priceMinimum) : undefined;
+    const priceMax = priceMaximum ? Number(priceMaximum) : undefined;
+
     onApply({
       artists: selectedArtists,
       colors: selectedColors,
       sizes: selectedSizes,
-      priceMin: priceMinimum,
-      priceMax: priceMaximum,
+      priceMin: priceMin,
+      priceMax: priceMax,
     });
   };
 

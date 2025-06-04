@@ -11,8 +11,10 @@ import { ProductList } from '@components/product-list/product-list';
 import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
 
 import { fetchCategoryTree, findCategoryBySlug, findRootCategory } from '@api/category-api/category-api';
-import { type CategoryTreeItem } from '@api/category-api/category-api.types';
-import { type Filters } from '@components/product-list/product-list.types';
+import { fetchProducts, mapProductToRenderData } from '@api/products-api/products-api';
+import type { CategoryTreeItem } from '@api/category-api/category-api.types';
+import type { ProductRenderData } from '@api/products-api/products-api.types';
+import type { Filters } from '@components/product-list/product-list.types';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -20,7 +22,11 @@ export const Catalog: FC = () => {
 
   const [categoryTree, setCategoryTree] = useState<CategoryTreeItem[] | null>(null);
   const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+
+  const [products, setProducts] = useState<ProductRenderData[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
   const [sortBy, setSortBy] = useState('price');
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<Filters>({
@@ -31,12 +37,12 @@ export const Catalog: FC = () => {
     priceMax: '',
   });
 
+  // Categories Loading
   useEffect(() => {
     const loadCategories = async (): Promise<void> => {
       try {
         const tree = await fetchCategoryTree();
         setCategoryTree(tree);
-        console.log('categorySlug from URL:', categorySlug);
 
         if (!categorySlug) {
           const rootCategory = findRootCategory(tree);
@@ -49,24 +55,37 @@ export const Catalog: FC = () => {
 
         if (categorySlug) {
           const matchedCategory = findCategoryBySlug(tree, categorySlug);
-          if (matchedCategory) {
-            setCurrentCategoryId(matchedCategory.id);
-          } else {
-            console.warn('Category not found for slug:', categorySlug);
-            setCurrentCategoryId(null);
-          }
+          setCurrentCategoryId(matchedCategory ? matchedCategory.id : null);
         }
       } catch (error) {
         console.error('Failed to fetch category tree:', error);
       } finally {
-        setLoading(false);
+        setLoadingCategories(false);
       }
     };
 
     void loadCategories();
   }, [categorySlug, navigate]);
 
-  if (loading) return <div>Loading categories...</div>;
+  // all Products Loading
+  useEffect(() => {
+    const loadProducts = async (): Promise<void> => {
+      setLoadingProducts(true);
+      try {
+        const fetchedProducts = await fetchProducts(25);
+        const mappedProducts = fetchedProducts.map(mapProductToRenderData);
+        setProducts(mappedProducts);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+
+    void loadProducts();
+  }, []);
+
+  if (loadingCategories) return <div>Loading categories...</div>;
   if (!categoryTree || categoryTree.length === 0) return <div>No categories found</div>;
   if (!currentCategoryId) return <div>Category not found</div>;
 
@@ -81,7 +100,8 @@ export const Catalog: FC = () => {
             <SortControls sortBy={sortBy} setSortBy={setSortBy} />
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
           </div>
-          <ProductList filters={filters} sortBy={sortBy} searchQuery={searchQuery} />
+
+          {loadingProducts ? <div>Loading products...</div> : <ProductList products={products} />}
         </div>
       </div>
     </div>

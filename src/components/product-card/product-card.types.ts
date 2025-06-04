@@ -5,5 +5,5 @@ export interface ProductCardProps {
   artist: string;
   color: string;
   size: string;
-  imageUrl: string;
+  imageUrls: string[];
 }

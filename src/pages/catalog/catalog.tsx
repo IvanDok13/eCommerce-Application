@@ -100,7 +100,7 @@ export const Catalog: FC = () => {
     <div className={styles.catalogPage}>
       <Header />
       <div className={styles.catalogContainer}>
-        <FilterSidebar onApply={setFilters} />
+        <FilterSidebar onApply={setFilters} products={products} />
         <div className={styles.catalogMain}>
           <div className={styles.catalogControls}>
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

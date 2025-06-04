@@ -10,7 +10,12 @@ import { SortControls } from '@components/sort-controls/sort-controls';
 import { ProductList } from '@components/product-list/product-list';
 import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
 
-import { fetchCategoryTree, findCategoryBySlug, findRootCategory } from '@api/category-api/category-api';
+import {
+  fetchCategoryTree,
+  findCategoryBySlug,
+  findRootCategory,
+  getCategoryAndChildrenIds,
+} from '@api/category-api/category-api';
 import { fetchProducts, getRenderArray, mapProductToRenderData } from '@api/products-api/products-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
@@ -73,14 +78,22 @@ export const Catalog: FC = () => {
     const loadProducts = async (): Promise<void> => {
       setLoadingProducts(true);
       try {
-        const fetchedProducts = await fetchProducts(25, currentCategoryId ?? '');
+        let categoryIds: string[] = [];
+
+        if (currentCategoryId && categoryTree) {
+          categoryIds = getCategoryAndChildrenIds(currentCategoryId, categoryTree);
+        }
+
+        const fetchedProducts = await fetchProducts(25, categoryIds);
+
         const mappedProducts = getRenderArray(fetchedProducts, {
           limit: 25,
           filters,
           sortBy,
           searchQuery,
-          categoryId: currentCategoryId ?? undefined,
+          categoryId: undefined,
         });
+
         setProducts(mappedProducts);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -90,7 +103,7 @@ export const Catalog: FC = () => {
     };
 
     void loadProducts();
-  }, [filters, sortBy, searchQuery, currentCategoryId]);
+  }, [filters, sortBy, searchQuery, currentCategoryId, categoryTree]);
 
   if (loadingCategories) return <div>Loading categories...</div>;
   if (!categoryTree || categoryTree.length === 0) return <div>No categories found</div>;

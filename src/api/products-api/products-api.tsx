@@ -2,13 +2,27 @@ import { apiRoot } from '../api-root';
 import type { Product } from '@commercetools/platform-sdk';
 import type { ProductQueryParameters, ProductRenderData } from './products-api.types';
 
-export const fetchProducts = async (limit = 50, categoryId: string): Promise<Product[]> => {
-  const queryArguments: Record<string, any> = {
-    limit,
-  };
+// VALID FUNCTION BUT WITHOUT CATEGORY FILTER
+// export const fetchProducts = async (limit = 50, categoryId: string): Promise<Product[]> => {
+//   const queryArguments: Record<string, any> = {
+//     limit,
+//   };
 
-  if (categoryId) {
-    queryArguments['filter.query'] = `categories.id:"${categoryId}"`;
+//   if (categoryId) {
+//     queryArguments['filter.query'] = `categories.id:"${categoryId}"`;
+//   }
+
+//   const response = await apiRoot.products().get({ queryArgs: queryArguments }).execute();
+//   return response.body.results;
+// };
+
+export const fetchProducts = async (limit: number, categoryIds?: string[]): Promise<Product[]> => {
+  const queryArguments: Record<string, any> = { limit };
+
+  if (categoryIds?.length) {
+    const categoryFilter = categoryIds.map(id => `"${id}"`).join(', ');
+
+    queryArguments['where'] = `masterData(current(categories(id in (${categoryFilter}))))`;
   }
 
   const response = await apiRoot.products().get({ queryArgs: queryArguments }).execute();

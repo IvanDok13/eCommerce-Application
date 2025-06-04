@@ -20,6 +20,8 @@ export interface ProductQueryParameters {
     priceMin?: number;
     priceMax?: number;
   };
-  sortBy?: 'price' | '-price' | 'name' | '-name';
+  sortBy?: SortByOption;
   searchQuery?: string;
 }
+
+export type SortByOption = 'price' | '-price' | 'name' | '-name';

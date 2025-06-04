@@ -19,6 +19,17 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    background-color 0.3s ease;
+}
+
+.searchButton:hover {
+  background-color: #a5d49a;
+}
+
+.searchButton:active {
+  transform: scale(0.95);
 }
 
 .resetButton {
@@ -29,4 +40,15 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    background-color 0.3s ease;
+}
+
+.resetButton:hover {
+  background-color: #d9433d;
+}
+
+.resetButton:active {
+  transform: scale(0.95);
 }

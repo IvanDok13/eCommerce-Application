@@ -2,7 +2,7 @@ import { type FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './breadcrumbs.module.css';
 import { type BreadcrumbsProps } from './breadcrumbs.types';
-import { findPathById, getItems } from './breadcrumbs-functions';
+import { getItems } from './breadcrumbs-functions';
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ categoryId, categoryTree, locale = 'en' }) => {
   const items = useMemo(() => getItems(categoryId, categoryTree, locale), [categoryId, categoryTree, locale]);

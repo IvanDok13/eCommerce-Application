@@ -11,17 +11,26 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ categoryId, categoryTree, lo
     console.log('No breadcrumbs available for this category');
     return null;
   }
-
   return (
     <nav className={styles.breadcrumbs}>
-      {items.map((item, index) => (
-        <span key={item.path} className={styles.breadcrumbItem}>
-          <Link to={item.path} className={styles.link}>
-            {item.label}
-          </Link>
-          {index < items.length - 1 && <span className={styles.separator}>/</span>}
-        </span>
-      ))}
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+
+        return (
+          <span key={item.path} className={styles.breadcrumbItem}>
+            {isLast ? (
+              <span className={styles.current} aria-current="page">
+                {item.label}
+              </span>
+            ) : (
+              <Link to={item.path} className={styles.link}>
+                {item.label}
+              </Link>
+            )}
+            {!isLast && <span className={styles.separator}>/</span>}
+          </span>
+        );
+      })}
     </nav>
   );
 };

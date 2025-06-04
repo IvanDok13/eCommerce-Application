@@ -22,3 +22,10 @@
   color: inherit;
   white-space: nowrap;
 }
+
+.current {
+  color: #333;
+  font-weight: 500;
+  cursor: default;
+  text-decoration: none;
+}

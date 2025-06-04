@@ -24,26 +24,26 @@ export const UserProfile: FC = () => {
 
   return (
     <div className={styles.profileContainer}>
-      <h2 className={styles.title}>Профиль пользователя</h2>
+      <h2 className={styles.title}>Profile User</h2>
       {isEditing ? (
         <form className={styles.profileForm}>
           <div className={styles.formGroup}>
             <label htmlFor="firstName" className={styles.label}>
-              Имя
+              First Name
             </label>
             <input id="firstName" className={styles.input} defaultValue={mockProfile.firstName} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="lastName" className={styles.label}>
-              Фамилия
+              Last Name
             </label>
             <input id="lastName" className={styles.input} defaultValue={mockProfile.lastName} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="dateOfBirth" className={styles.label}>
-              Дата рождения
+              Date of birth
             </label>
             <input id="dateOfBirth" type="date" className={styles.input} defaultValue={mockProfile.dateOfBirth} />
           </div>
@@ -56,28 +56,28 @@ export const UserProfile: FC = () => {
           </div>
 
           <button type="submit" className={styles.submitButton}>
-            Сохранить
+            Save
           </button>
           <button type="button" className={styles.cancelButton} onClick={() => setIsEditing(false)}>
-            Отмена
+            Cancel
           </button>
         </form>
       ) : (
         <div className={styles.profileInfo}>
           <p>
-            <strong>Имя:</strong> {mockProfile.firstName}
+            <strong>First Name:</strong> {mockProfile.firstName}
           </p>
           <p>
-            <strong>Фамилия:</strong> {mockProfile.lastName}
+            <strong>Last Name:</strong> {mockProfile.lastName}
           </p>
           <p>
-            <strong>Дата рождения:</strong> {mockProfile.dateOfBirth}
+            <strong>Date of birth:</strong> {mockProfile.dateOfBirth}
           </p>
           <p>
             <strong>Email:</strong> {mockProfile.email}
           </p>
           <div className={styles.addresses}>
-            <h3>Адреса:</h3>
+            <h3>Address:</h3>
             {mockProfile.addresses.length > 0 ? (
               <ul>
                 {mockProfile.addresses.map(address => (
@@ -87,11 +87,11 @@ export const UserProfile: FC = () => {
                 ))}
               </ul>
             ) : (
-              <p>Адреса отсутствуют</p>
+              <p>No address available</p>
             )}
           </div>
           <button className={styles.editButton} onClick={() => setIsEditing(true)}>
-            Редактировать
+            Edit
           </button>
         </div>
       )}

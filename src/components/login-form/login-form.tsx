@@ -1,4 +1,4 @@
-import { authRequestResponse } from '@api/auth-user';
+import { authRequestResponse, fetchCustomerData, getUserProfile } from '@api/auth-user';
 import { authError } from '@utils/auth-error';
 import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
@@ -13,6 +13,7 @@ import type { LoginFormData } from './login-form.types';
 
 export const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -31,10 +32,28 @@ export const LoginForm: FC = () => {
   const { isLoginned, setLogin, setIsLoginned, setCustomerId } = useContext(authContext);
 
   useEffect(() => {
-    if (isLoginned) {
-      navigate('/');
+    const checkAuth = async (): Promise<void> => {
+      try {
+        setIsLoading(true);
+        const customer = await fetchCustomerData();
+        setIsLoginned(true);
+        setCustomerId(customer.version.toString());
+        setLogin(customer.email);
+        navigate('/');
+      } catch (error) {
+        console.log('Auth check failed:', error);
+        setIsLoginned(false);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (!isLoginned) {
+      void checkAuth();
+    } else {
+      navigate('/profile');
     }
-  }, [isLoginned, navigate]);
+  }, [isLoginned, navigate, setIsLoginned, setCustomerId, setLogin]);
 
   const formSubmit: SubmitHandler<LoginFormData> = async data => {
     try {
@@ -64,6 +83,10 @@ export const LoginForm: FC = () => {
     }
     console.log('Form submitted:', data);
   };
+
+  if (isLoading) {
+    return <div className={styles.loginContainer}>Loading...</div>;
+  }
 
   return (
     <main className={styles.loginContainer}>

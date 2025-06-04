@@ -2,56 +2,16 @@ import { apiRoot } from '../api-root';
 import type { Product } from '@commercetools/platform-sdk';
 import type { ProductQueryParameters, ProductRenderData } from './products-api.types';
 
-export const fetchProducts = async (parameters: ProductQueryParameters): Promise<Product[]> => {
-  const { limit = 25, categoryId, filters, sortBy, searchQuery } = parameters;
-
+export const fetchProducts = async (limit = 50, categoryId: string): Promise<Product[]> => {
   const queryArguments: Record<string, any> = {
     limit,
   };
 
-  if (searchQuery) {
-    queryArguments['text.en-US'] = searchQuery;
-  }
-
-  const filterArguments: string[] = [];
-
   if (categoryId) {
-    filterArguments.push(`categories.id:"${categoryId}"`);
-  }
-
-  if (filters?.artists?.length) {
-    filters.artists.forEach(artist => filterArguments.push(`variants.attributes.artist-name:"${artist}"`));
-  }
-
-  if (filters?.colors?.length) {
-    filters.colors.forEach(color => filterArguments.push(`variants.attributes.tattoo-color:"${color}"`));
-  }
-
-  if (filters?.sizes?.length) {
-    filters.sizes.forEach(size => filterArguments.push(`variants.attributes.tattoo-size:"${size}"`));
-  }
-
-  if (filters?.priceMin || filters?.priceMax) {
-    const min = filters.priceMin || '0';
-    const max = filters.priceMax || '999999';
-    filterArguments.push(`variants.price.centAmount:range (${Number(min) * 100} to ${Number(max) * 100})`);
-  }
-
-  if (filterArguments.length > 0) {
-    queryArguments.filter = filterArguments;
-  }
-
-  if (sortBy) {
-    queryArguments.sort = {
-      price: 'price asc',
-      '-price': 'price desc',
-      name: 'name.en-US asc',
-      '-name': 'name.en-US desc',
-    }[sortBy];
+    queryArguments['filter.query'] = `categories.id:"${categoryId}"`;
   }
 
   const response = await apiRoot.products().get({ queryArgs: queryArguments }).execute();
-
   return response.body.results;
 };
 
@@ -94,4 +54,53 @@ export const mapProductToRenderData = (product: Product): ProductRenderData => {
     color,
     description,
   };
+};
+
+export const getRenderArray = (products: Product[], queryParameters: ProductQueryParameters): ProductRenderData[] => {
+  const { filters, searchQuery, sortBy } = queryParameters;
+
+  // Map raw products to render data
+  let renderData = products.map(mapProductToRenderData);
+
+  // Filter by attributes and price
+  if (filters) {
+    const { artists, colors, sizes, priceMin, priceMax } = filters;
+
+    renderData = renderData.filter(product => {
+      const matchArtist = !artists?.length || artists.includes(product.artist);
+      const matchColor = !colors?.length || colors.includes(product.color);
+      const matchSize = !sizes?.length || sizes.includes(product.size);
+      const matchPrice =
+        (priceMin === undefined || product.price >= priceMin * 100) &&
+        (priceMax === undefined || product.price <= priceMax * 100);
+
+      return matchArtist && matchColor && matchSize && matchPrice;
+    });
+  }
+
+  // Filter by search query
+  if (searchQuery) {
+    const lowerQuery = searchQuery.toLowerCase();
+    renderData = renderData.filter(product => product.name.toLowerCase().includes(lowerQuery));
+  }
+
+  // Sort by price or name
+  if (sortBy) {
+    renderData.sort((a, b) => {
+      switch (sortBy) {
+        case 'price':
+          return a.price - b.price;
+        case '-price':
+          return b.price - a.price;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case '-name':
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    });
+  }
+
+  return renderData;
 };

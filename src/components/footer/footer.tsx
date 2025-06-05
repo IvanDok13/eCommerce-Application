@@ -11,6 +11,7 @@ export const Footer: FC = () => {
             <div className={styles.footerItem}>
               <div>
                 <a
+                  id="contacts"
                   href="https://www.google.ru/maps/place/8558+Greene+Ave,+Los+Angeles,+CA+90066,+%D0%A1%D0%A8%D0%90/@33.9943673,-118.4223881,17z/data=!3m1!4b1!4m5!3m4!1s0x80c2ba6"
                   target="_blank"
                 >

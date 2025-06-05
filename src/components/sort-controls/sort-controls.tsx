@@ -1,10 +1,19 @@
 import React, { type FC } from 'react';
 import styles from './sort-controls.module.css';
 import { type SortControlsProps } from './sort-controls.types';
+import type { SortByOption } from '@api/products-api/products-api.types';
+
+const isSortByOption = (value: string): value is SortByOption => {
+  const sortOptions: string[] = ['price', '-price', 'name', '-name'];
+  return sortOptions.includes(value);
+};
 
 export const SortControls: FC<SortControlsProps> = ({ sortBy, setSortBy }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    setSortBy(event.target.value);
+    const value = event.target.value;
+    if (isSortByOption(value)) {
+      setSortBy(value);
+    }
   };
 
   return (

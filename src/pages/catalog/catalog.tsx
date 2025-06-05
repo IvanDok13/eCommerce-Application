@@ -16,11 +16,10 @@ import {
   findRootCategory,
   getCategoryAndChildrenIds,
 } from '@api/category-api/category-api';
-import { fetchProducts, getRenderArray, mapProductToRenderData } from '@api/products-api/products-api';
+import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
 import type { Filters } from '@components/product-list/product-list.types';
-import { get } from 'lodash';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();

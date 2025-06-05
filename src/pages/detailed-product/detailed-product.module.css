@@ -1,0 +1,48 @@
+.productPage {
+  padding: 1.5rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.productTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.productDescription {
+  margin-bottom: 1.5rem;
+  color: #4b5563;
+}
+
+.imageSliderPlaceholder,
+.pricePlaceholder,
+.modalPlaceholder {
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  color: #9ca3af;
+}
+
+.imageSliderPlaceholder {
+  height: 16rem;
+  margin-bottom: 1.5rem;
+}
+
+.pricePlaceholder {
+  height: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.modalPlaceholder {
+  height: 8rem;
+}
+
+.productInfoWrapper {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

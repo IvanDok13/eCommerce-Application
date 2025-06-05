@@ -18,18 +18,18 @@ export const Header: FC = () => (
             </a>
           </li>
           <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="catalog">
+            <a className={styles.headerLink} href="/catalog">
               Catalog
             </a>
           </li>
           <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="about">
+            <a className={styles.headerLink} href="/about">
               About
             </a>
           </li>
 
           <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="contacts">
+            <a className={styles.headerLink} href="/contacts">
               Contacts
             </a>
           </li>

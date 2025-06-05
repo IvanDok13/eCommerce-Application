@@ -18,6 +18,13 @@ export const SearchBar: FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) =
     setSearchQuery('');
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch();
+    }
+  };
+
   return (
     <div className={styles.searchBarContainer}>
       <input
@@ -25,6 +32,7 @@ export const SearchBar: FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) =
         placeholder="Search for a tattoo..."
         value={inputValue}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         className={styles.searchInput}
       />
       <button onClick={handleSearch} className={styles.searchButton}>

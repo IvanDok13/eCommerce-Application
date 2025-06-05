@@ -1,4 +1,6 @@
+import type { SortByOption } from '@api/products-api/products-api.types';
+
 export interface SortControlsProps {
-  sortBy: string;
-  setSortBy: (sortBy: string) => void;
+  sortBy: SortByOption;
+  setSortBy: (sortBy: SortByOption) => void;
 }

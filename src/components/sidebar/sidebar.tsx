@@ -1,49 +1,52 @@
 import React, { type FC, useMemo, useState } from 'react';
 import styles from './sidebar.module.css';
-import { type Filters, mockProducts } from '@components/product-list/product-list.types';
+import type { FilterSidebarProps } from './sidebar.types';
 
-export const FilterSidebar: FC<{ onApply: (filters: Filters) => void }> = ({ onApply }) => {
+export const FilterSidebar: FC<FilterSidebarProps> = ({ onApply, products }) => {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedPlacements, setSelectedPlacements] = useState<string[]>([]);
   const [priceMinimum, setPriceMinimum] = useState('');
   const [priceMaximum, setPriceMaximum] = useState('');
+  const [filtersApplied, setFiltersApplied] = useState(false);
 
   // getting unique values for artists, colors, sizes, and placements
-
   const artists = useMemo(() => {
-    const unique = new Set<string>();
-    mockProducts.forEach(product => unique.add(product.artist));
+    const unique = new Set(products.map(p => p.artist).filter(Boolean));
     return [...unique].sort();
-  }, []);
+  }, [products]);
+
   const colors = useMemo(() => {
     const unique = new Set<string>();
-    mockProducts.forEach(product => {
-      const c = product.color.toLowerCase();
-      if (c.includes('black') || c.includes('grey') || c === 'black-white') {
+    products.forEach(p => {
+      const color = p.color?.toLowerCase() ?? '';
+      if (color.includes('black') || color.includes('grey') || color === 'black-white') {
         unique.add('black-white');
-      } else {
+      } else if (color) {
         unique.add('colored');
       }
     });
     return [...unique].sort();
-  }, []);
+  }, [products]);
 
   const sizes = useMemo(() => {
-    const unique = new Set<string>();
-    mockProducts.forEach(product => unique.add(product.size));
+    const unique = new Set(products.map(p => p.size).filter(Boolean));
     return [...unique].sort();
-  }, []);
+  }, [products]);
 
   const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
+    const priceMin = priceMinimum ? Number(priceMinimum) : undefined;
+    const priceMax = priceMaximum ? Number(priceMaximum) : undefined;
+
+    setFiltersApplied(true);
+
     onApply({
       artists: selectedArtists,
       colors: selectedColors,
       sizes: selectedSizes,
-      priceMin: priceMinimum,
-      priceMax: priceMaximum,
+      priceMin: priceMin,
+      priceMax: priceMax,
     });
   };
 
@@ -150,6 +153,11 @@ export const FilterSidebar: FC<{ onApply: (filters: Filters) => void }> = ({ onA
               setSelectedSizes([]);
               setPriceMinimum('');
               setPriceMaximum('');
+
+              if (filtersApplied) {
+                setFiltersApplied(false);
+                onApply({});
+              }
             }}
           >
             Reset

@@ -74,6 +74,17 @@
   border: none;
   cursor: pointer;
   border-radius: 4px;
+  transition:
+    transform 0.1s ease,
+    background-color 0.3s ease;
+}
+
+.applyFilterButton:hover {
+  background-color: #a5d49a;
+}
+
+.applyFilterButton:active {
+  transform: scale(0.95);
 }
 
 .resetFilterButton {
@@ -84,4 +95,15 @@
   border: none;
   cursor: pointer;
   border-radius: 4px;
+  transition:
+    transform 0.1s ease,
+    background-color 0.3s ease;
+}
+
+.resetFilterButton:hover {
+  background-color: #d9433d;
+}
+
+.resetFilterButton:active {
+  transform: scale(0.95);
 }

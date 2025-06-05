@@ -22,3 +22,27 @@
   color: inherit;
   white-space: nowrap;
 }
+
+.current {
+  color: #333;
+  font-weight: 500;
+  cursor: default;
+  text-decoration: none;
+}
+
+.breadcrumbsDropdown {
+  color: #222;
+  background-color: #fff;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: auto;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.breadcrumbsDropdown:disabled {
+  color: #999;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}

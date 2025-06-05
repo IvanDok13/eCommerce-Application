@@ -61,3 +61,26 @@ export const findCategoryBySlug = (
   }
   return null;
 };
+
+export const getCategoryAndChildrenIds = (rootId: string, tree: CategoryTreeItem[]): string[] => {
+  const result: string[] = [];
+
+  const findNode = (nodes: CategoryTreeItem[]): CategoryTreeItem | null => {
+    for (const node of nodes) {
+      if (node.id === rootId) return node;
+      const found = findNode(node.children ?? []);
+      if (found) return found;
+    }
+    return null;
+  };
+
+  const collectIds = (node: CategoryTreeItem): void => {
+    result.push(node.id);
+    node.children?.forEach(collectIds);
+  };
+
+  const rootNode = findNode(tree);
+  if (rootNode) collectIds(rootNode);
+
+  return result;
+};

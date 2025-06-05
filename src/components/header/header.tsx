@@ -54,16 +54,16 @@ export const Header: FC = () => {
               </a>
             </li>
 
-          <li className={styles.headerItem}>
-            <a className={styles.headerLink} href="#contacts">
-              Contacts
-            </a>
-          </li>
-        </ul>
-      </nav>
+            <li className={styles.headerItem}>
+              <a className={styles.headerLink} href="/#contacts">
+                Contacts
+              </a>
+            </li>
+          </ul>
+        </nav>
 
         <div className={styles.headerButtonWrapper}>
-          <a className={styles.headerButton} href="registration">
+          <a className={styles.headerButton} href="/registration">
             <svg
               viewBox="64 64 896 896"
               focusable="false"

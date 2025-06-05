@@ -1,4 +1,4 @@
-import React, { type FC, useMemo } from 'react';
+import { type ChangeEvent, type FC, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './breadcrumbs.module.css';
 import { type BreadcrumbsProps } from './breadcrumbs.types';
@@ -18,7 +18,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ categoryId, categoryTree, lo
     return null;
   }
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     const selectedSlug = event.target.selectedOptions[0].dataset.slug;
     if (selectedSlug) {
       navigate(`/catalog/${selectedSlug}`);

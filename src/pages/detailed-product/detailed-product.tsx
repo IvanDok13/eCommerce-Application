@@ -4,6 +4,7 @@ import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import { useParams } from 'react-router-dom';
 import styles from './detailed-product.module.css';
 import { Header } from '@components/header/header';
+import { ImageSlider } from '@components/slider/slider';
 
 interface Props {
   productId: string;
@@ -64,9 +65,7 @@ export const DetailedProduct: FC<Props> = ({ productId }) => {
         <p className={styles.productDescription}>{product.description || 'No description available.'}</p>
       </div>
 
-      <div className={styles.imageSliderPlaceholder}>
-        <span>Image slider placeholder</span>
-      </div>
+      <ImageSlider imageUrls={product.imageUrls} altBase={product.name} />
 
       <div className={styles.priceBlock}>
         <span className={styles.priceLabel}>Price: </span>

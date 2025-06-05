@@ -62,7 +62,9 @@ export const DetailedProduct: FC<Props> = ({ productId }) => {
         <p className={styles.productArtist}>Artist: {product.artist || 'Unknown'}</p>
         <p className={styles.productSize}>Size: {product.size.length > 0 ? product.size : 'Not specified'}</p>
         <p className={styles.productColor}>Color: {product.color || 'Not specified'}</p>
-        <p className={styles.productDescription}>{product.description || 'No description available.'}</p>
+        <p className={styles.productDescription}>
+          About this tattoo: {product.description || 'No description available.'}
+        </p>
       </div>
 
       <ImageSlider imageUrls={product.imageUrls} altBase={product.name} />

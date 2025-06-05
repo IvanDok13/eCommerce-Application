@@ -7,6 +7,7 @@ import type { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
 import { Catalog } from '@pages/catalog/catalog';
+import { DetailedProductWrapper } from '@pages/detailed-product/detailed-product';
 
 export const AppRouter: FC = () => (
   <BrowserRouter>
@@ -17,6 +18,7 @@ export const AppRouter: FC = () => (
       <Route path={AppRoutes.USER_PROFILE_ROUTE} element={<Profile />} />
       <Route path={AppRoutes.CATALOG_ROUTE} element={<Catalog />} />
       <Route path={AppRoutes.CATALOG_CATEGORY_ROUTE} element={<Catalog />} />
+      <Route path={AppRoutes.PRODUCT_DETAIL_ROUTE} element={<DetailedProductWrapper />} />
       <Route path={AppRoutes.ERROR_ROUTE} element={<NotFoundPage />} />
     </Routes>
   </BrowserRouter>

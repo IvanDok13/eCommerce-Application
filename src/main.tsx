@@ -2,6 +2,7 @@ import { AppRouter } from '@router/router';
 import '@styles/styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { AuthProvider } from 'src/context/auth-provider';
 
 document.body.innerHTML = '<div id="app"></div>';
 
@@ -12,6 +13,8 @@ if (!(root instanceof HTMLElement)) {
 
 createRoot(document.querySelector('#app')!).render(
   <StrictMode>
-    <AppRouter />
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   </StrictMode>
 );

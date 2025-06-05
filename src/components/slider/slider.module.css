@@ -1,0 +1,42 @@
+.imageSlider {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  position: relative;
+  text-align: center;
+}
+
+.sliderImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+  max-height: 400px;
+}
+
+.sliderControls {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sliderButton {
+  font-size: 1.25rem;
+  background-color: #ddd;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.sliderButton:hover {
+  background-color: #ccc;
+}
+
+.sliderIndex {
+  font-size: 0.9rem;
+  color: #666;
+}

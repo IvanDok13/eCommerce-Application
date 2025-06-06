@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCustomerData } from '@api/auth-user';
 import type { FC } from 'react';
 import type { ProfileData } from './interfaces-profile';
 import styles from './profile.module.css';
@@ -18,6 +19,20 @@ const mockProfile: ProfileData = {
     },
   ],
 };
+
+export function Profile() {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    getCustomerData()
+      .then(setUser)
+      .catch(() => console.log('Не авторизован'));
+  }, []);
+
+  if (!user) return <div>Загрузка...</div>;
+
+  return <div>Привет, {user.firstName}!</div>;
+}
 
 export const UserProfile: FC = () => {
   const [isEditing, setIsEditing] = useState(false);

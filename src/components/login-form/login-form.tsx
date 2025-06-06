@@ -1,4 +1,4 @@
-import { authRequestResponse, fetchCustomerData, getUserProfile } from '@api/auth-user';
+import { authRequestResponse, fetchCustomerData, getCustomerData } from '@api/auth-user';
 import { authError } from '@utils/auth-error';
 import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
@@ -34,26 +34,19 @@ export const LoginForm: FC = () => {
   useEffect(() => {
     const checkAuth = async (): Promise<void> => {
       try {
-        setIsLoading(true);
         const customer = await fetchCustomerData();
-        setIsLoginned(true);
-        setCustomerId(customer.version.toString());
         setLogin(customer.email);
-        navigate('/');
+        setCustomerId(customer.id);
+        setIsLoginned(true);
+        console.log('user authorized');
       } catch (error) {
-        console.log('Auth check failed:', error);
+        console.warn('user is not authorized', error);
         setIsLoginned(false);
-        setIsLoading(false);
-      } finally {
-        setIsLoading(false);
       }
     };
-    if (!isLoginned) {
-      void checkAuth();
-    } else {
-      navigate('/profile');
-    }
-  }, [isLoginned, navigate, setIsLoginned, setCustomerId, setLogin]);
+
+    void checkAuth();
+  }, []);
 
   const formSubmit: SubmitHandler<LoginFormData> = async data => {
     try {

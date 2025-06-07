@@ -34,7 +34,7 @@ export const LoginForm: FC = () => {
   useEffect(() => {
     const checkAuth = async (): Promise<void> => {
       try {
-        const customer = await fetchCustomerData();
+        const customer = await getCustomerData();
         setLogin(customer.email);
         setCustomerId(customer.id);
         setIsLoginned(true);

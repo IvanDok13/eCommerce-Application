@@ -48,98 +48,20 @@ export async function authRequestResponse(
 
 // Fetch Customer Data (for auth check)
 
-type StoredToken = {
-  token: string;
-  refreshToken?: string;
-  expirationTime?: number;
-};
-
-export async function getCustomerData(): Promise<any> {
+export const getCustomerData = async (): Promise<any> => {
   const stored = localStorage.getItem('Token');
-  if (!stored) throw new Error('Нет токена в localStorage');
+  if (!stored) throw new Error('No token');
 
-  const parsed = JSON.parse(stored);
-  if (!parsed || typeof parsed.token !== 'string') {
-    throw new Error('Неверный токен');
-  }
-
-  const httpModule = await import('@commercetools/sdk-middleware-http');
-  const httpMiddleware = httpModule.default?.createHttpMiddleware || httpModule.createHttpMiddleware;
-  const authModule = await import('@commercetools/sdk-middleware-auth');
-  const authMiddleware = authModule.default?.authMiddleware || authModule.authMiddleware;
-
-  // Клиент с токеном
-  const client = new ClientBuilder()
-    .withMiddleware(createHttpMiddleware({ host: API_URL, fetch }))
-    .withMiddleware(
-      authMiddleware({
-        host: AUTH_URL,
-        projectKey: PROJECT_KEY,
-        fetch,
-        credentials: {
-          accessToken: parsed.token,
-        },
-      })
-    )
-    .build();
-
-  // Запрос к /me
-  const response = await client.execute({
-    uri: `/${PROJECT_KEY}/me`,
-    method: 'GET',
+  const { token } = JSON.parse(stored);
+  const response = await fetch(`${API_URL}/${PROJECT_KEY}/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
-  console.log(response);
 
-  return response.body;
-}
+  if (!response.ok) throw new Error('Not authorized');
+  const customer: Customer = await response.json();
+  console.log(customer);
 
-export const fetchCustomerData = async (): Promise<Customer> => {
-  const stored = localStorage.getItem('Token');
-  if (!stored) throw new Error('No token in localStorage');
-
-  const parsed = JSON.parse(stored) as { token: string };
-  const token = parsed.token;
-
-  // динамически импортируем оба middleware
-  const authModule = await import('@commercetools/sdk-middleware-auth');
-  const authMiddleware = authModule.default?.authMiddleware || authModule.authMiddleware;
-
-  const httpModule = await import('@commercetools/sdk-middleware-http');
-  const httpMiddleware = httpModule.default?.createHttpMiddleware || httpModule.createHttpMiddleware;
-
-  const client = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withMiddleware(
-      httpMiddleware({
-        host: 'https://api.europe-west1.gcp.commercetools.com',
-        fetch,
-      }),
-      authMiddleware({
-        host: 'https://auth.europe-west1.gcp.commercetools.com',
-        projectKey: PROJECT_KEY,
-        credentials: {
-          accessToken: token,
-        },
-        fetch,
-      })
-    )
-    .build();
-
-  const apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
-  const response = await apiRoot.me().get().execute();
-
-  return response.body;
-};
-
-const createApiRootWithToken = (accessToken: string): ByProjectKeyRequestBuilder => {
-  const client = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withHttpMiddleware({
-      host: AUTH_URL,
-      credentials: { accessToken },
-      fetch,
-    })
-    .build();
-
-  return createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });
+  return customer;
 };

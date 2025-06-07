@@ -1,27 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getCustomerData } from '@api/auth-user';
+import type { Customer } from '@commercetools/platform-sdk';
 import type { FC } from 'react';
 import type { ProfileData } from './interfaces-profile';
 import styles from './profile.module.css';
 
-const mockProfile: ProfileData = {
-  firstName: 'Иван',
-  lastName: 'Иванов',
-  dateOfBirth: '1990-01-01',
-  email: 'ivan@example.com',
-  addresses: [
-    {
-      id: '1',
-      streetName: 'ул. Примерная',
-      city: 'Москва',
-      postalCode: '123456',
-      country: 'RU',
-    },
-  ],
-};
-
-export function Profile() {
-  const [user, setUser] = useState<any>(null);
+export const UserProfile = () => {
+  const [user, setUser] = useState<Customer | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     getCustomerData()
@@ -29,13 +15,9 @@ export function Profile() {
       .catch(() => console.log('Не авторизован'));
   }, []);
 
-  if (!user) return <div>Загрузка...</div>;
+  if (!user) return <div>Loading...</div>;
 
-  return <div>Привет, {user.firstName}!</div>;
-}
-
-export const UserProfile: FC = () => {
-  const [isEditing, setIsEditing] = useState(false);
+  const primaryAddress = user.addresses?.[0];
 
   return (
     <div className={styles.profileContainer}>
@@ -46,28 +28,21 @@ export const UserProfile: FC = () => {
             <label htmlFor="firstName" className={styles.label}>
               First Name
             </label>
-            <input id="firstName" className={styles.input} defaultValue={mockProfile.firstName} />
+            <input id="firstName" className={styles.input} defaultValue={user.firstName || ''} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="lastName" className={styles.label}>
               Last Name
             </label>
-            <input id="lastName" className={styles.input} defaultValue={mockProfile.lastName} />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="dateOfBirth" className={styles.label}>
-              Date of birth
-            </label>
-            <input id="dateOfBirth" type="date" className={styles.input} defaultValue={mockProfile.dateOfBirth} />
+            <input id="lastName" className={styles.input} defaultValue={user.lastName || ''} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.label}>
               Email
             </label>
-            <input id="email" type="email" className={styles.input} defaultValue={mockProfile.email} />
+            <input id="email" type="email" className={styles.input} defaultValue={user.email} />
           </div>
 
           <button type="submit" className={styles.submitButton}>
@@ -80,31 +55,27 @@ export const UserProfile: FC = () => {
       ) : (
         <div className={styles.profileInfo}>
           <p>
-            <strong>First Name:</strong> {mockProfile.firstName}
+            <strong>First Name:</strong> {user.firstName}
           </p>
           <p>
-            <strong>Last Name:</strong> {mockProfile.lastName}
+            <strong>Last Name:</strong> {user.lastName}
           </p>
           <p>
-            <strong>Date of birth:</strong> {mockProfile.dateOfBirth}
+            <strong>Email:</strong> {user.email}
           </p>
-          <p>
-            <strong>Email:</strong> {mockProfile.email}
-          </p>
+
           <div className={styles.addresses}>
             <h3>Address:</h3>
-            {mockProfile.addresses.length > 0 ? (
-              <ul>
-                {mockProfile.addresses.map(address => (
-                  <li key={address.id}>
-                    {address.streetName}, {address.city}, {address.postalCode}, {address.country}
-                  </li>
-                ))}
-              </ul>
+            {primaryAddress ? (
+              <p>
+                {primaryAddress.streetName}, {primaryAddress.city}, {primaryAddress.postalCode},{' '}
+                {primaryAddress.country}
+              </p>
             ) : (
               <p>No address available</p>
             )}
           </div>
+
           <button className={styles.editButton} onClick={() => setIsEditing(true)}>
             Edit
           </button>

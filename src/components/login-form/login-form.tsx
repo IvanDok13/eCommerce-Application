@@ -1,4 +1,5 @@
-import { authRequestResponse, fetchCustomerData, getCustomerData } from '@api/auth-user';
+import { authRequestResponse, getCustomerData } from '@api/auth-user';
+import type { Customer } from '@commercetools/platform-sdk';
 import { authError } from '@utils/auth-error';
 import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
@@ -34,11 +35,13 @@ export const LoginForm: FC = () => {
   useEffect(() => {
     const checkAuth = async (): Promise<void> => {
       try {
-        const customer = await getCustomerData();
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        const customer = (await getCustomerData()) as Customer;
         setLogin(customer.email);
         setCustomerId(customer.id);
         setIsLoginned(true);
         console.log('user authorized');
+        navigate('/profile');
       } catch (error) {
         console.warn('user is not authorized', error);
         setIsLoginned(false);

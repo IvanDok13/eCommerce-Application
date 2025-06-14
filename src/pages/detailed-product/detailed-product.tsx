@@ -1,10 +1,9 @@
-import { type FC, useEffect, useState } from 'react';
-import type { ProductRenderData } from '@api/products-api/products-api.types';
 import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
+import type { ProductRenderData } from '@api/products-api/products-api.types';
+import { ImageSlider } from '@components/slider/slider';
+import { type FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './detailed-product.module.css';
-import { Header } from '@components/header/header';
-import { ImageSlider } from '@components/slider/slider';
 
 interface Props {
   productId: string;
@@ -56,7 +55,6 @@ export const DetailedProduct: FC<Props> = ({ productId }) => {
 
   return (
     <div className={styles.productPage}>
-      <Header />
       <div className={styles.productInfoWrapper}>
         <h1 className={styles.productTitle}>{product.name}</h1>
         <p className={styles.productArtist}>Artist: {product.artist || 'Unknown'}</p>

@@ -5,9 +5,28 @@ function checkVariable(value: string | undefined, name: string): string {
   return value;
 }
 
-export const PROJECT_KEY: string = checkVariable(import.meta.env.VITE_CTP_PROJECT_KEY, 'PROJECT_KEY');
-export const CLIENT_ID: string = checkVariable(import.meta.env.VITE_CTP_CLIENT_ID, 'CLIENT_ID');
-export const CLIENT_SECRET: string = checkVariable(import.meta.env.VITE_CTP_CLIENT_SECRET, 'CLIENT_SECRET');
-export const AUTH_URL: string = checkVariable(import.meta.env.VITE_CTP_AUTH_URL, 'AUTH_URL');
-export const API_URL: string = checkVariable(import.meta.env.VITE_CTP_API_URL, 'API_URL');
-export const SCOPES: string = checkVariable(import.meta.env.VITE_CTP_SCOPES, 'SCOPES');
+export const PROJECT_KEY: string =
+  typeof import.meta.env.VITE_CTP_PROJECT_KEY === 'string'
+    ? checkVariable(import.meta.env.VITE_CTP_PROJECT_KEY, 'PROJECT_KEY')
+    : '';
+
+export const CLIENT_ID: string =
+  typeof import.meta.env.VITE_CTP_CLIENT_ID === 'string'
+    ? checkVariable(import.meta.env.VITE_CTP_CLIENT_ID, 'CLIENT_ID')
+    : '';
+
+export const CLIENT_SECRET: string =
+  typeof import.meta.env.VITE_CTP_CLIENT_SECRET === 'string'
+    ? checkVariable(import.meta.env.VITE_CTP_CLIENT_SECRET, 'CLIENT_SECRET')
+    : '';
+
+export const AUTH_URL: string =
+  typeof import.meta.env.VITE_CTP_AUTH_URL === 'string'
+    ? checkVariable(import.meta.env.VITE_CTP_AUTH_URL, 'AUTH_URL')
+    : '';
+export const API_URL: string =
+  typeof import.meta.env.VITE_CTP_API_URL === 'string'
+    ? checkVariable(import.meta.env.VITE_CTP_API_URL, 'API_URL')
+    : '';
+export const SCOPES: string =
+  typeof import.meta.env.VITE_CTP_SCOPES === 'string' ? checkVariable(import.meta.env.VITE_CTP_SCOPES, 'SCOPES') : '';

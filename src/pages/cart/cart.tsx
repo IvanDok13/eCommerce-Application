@@ -32,7 +32,7 @@ export const CartPage: FC = () => {
       <h2>Your Cart</h2>
       <ul>
         {cart.lineItems.map((item: LineItem) => (
-          <li key={item.id}>
+          <li key={item.id} className={styles.cartItem}>
             {item.name?.['en-US'] || 'Unnamed product'} — {item.quantity} pcs —{' '}
             {((item.price?.value.centAmount ?? 0) * item.quantity) / 100} {item.price?.value.currencyCode}
           </li>

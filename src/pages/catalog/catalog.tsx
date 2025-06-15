@@ -20,6 +20,7 @@ import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
 import type { Filters } from '@components/product-list/product-list.types';
+import { CartDebugger } from '@api/category-api/cart-api/cart-debugger';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -118,6 +119,7 @@ export const Catalog: FC = () => {
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <SortControls sortBy={sortBy} setSortBy={setSortBy} />
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
+            <CartDebugger />
           </div>
 
           {loadingProducts ? <div>Loading products...</div> : <ProductList products={products} />}

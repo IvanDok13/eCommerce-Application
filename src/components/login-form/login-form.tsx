@@ -67,7 +67,7 @@ export const LoginForm: FC = () => {
   };
 
   return (
-    <main className={styles.loginContainer}>
+    <main className={styles.main}>
       <form className={styles.loginForm} action="submit" onSubmit={event => void handleSubmit(formSubmit)(event)}>
         <div className="formBlockContainer">
           <div className={styles.registrationInputContainer}>

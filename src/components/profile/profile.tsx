@@ -91,76 +91,76 @@ export const UserProfile: FC = () => {
     //   {changePassMode ? (
     //     <ChangePassword version={version} onClose={() => setChangePassMode(false)} />
     //   ) : (
-    <div className={styles.profileContainer}>
-      <h2 className={styles.title}>User profile</h2>
+    <main className={styles.profileContainer}>
       <form className={styles.profileForm} onSubmit={handleFormSubmit}>
-        <div className={styles.formGroup}>
-          <label htmlFor="firstName" className={styles.label}>
-            First Name
-          </label>
-          <input
-            id="firstName"
-            className={styles.input}
-            type="text"
-            disabled={!editMode}
-            data-tooltip-id="name-tooltip"
-            data-tooltip-content={errors.firstName?.message}
-            {...register('firstName', validationRules.name)}
-            placeholder="John"
-          />
-          <Tooltip id="name-tooltip" place="top" variant="error" isOpen={!!errors.firstName} />
-        </div>
+        <div className={styles.profileBlockContainer}>
+          <div className={styles.profileInputContainer}>
+            <label htmlFor="firstName" className={styles.label}>
+              First Name
+            </label>
+            <input
+              id="firstName"
+              className={styles.profileInput}
+              type="text"
+              disabled={!editMode}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={errors.firstName?.message}
+              {...register('firstName', validationRules.name)}
+              placeholder="John"
+            />
+            <Tooltip id="tooltip" place="top" variant="error" isOpen={!!errors.firstName} />
+          </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="lastName" className={styles.label}>
-            Last Name
-          </label>
-          <input
-            id="lastName"
-            className={styles.input}
-            type="text"
-            disabled={!editMode}
-            data-tooltip-id="lastname-tooltip"
-            data-tooltip-content={errors.lastName?.message}
-            {...register('lastName', validationRules.name)}
-            placeholder="Doe"
-          />
-          <Tooltip id="lastname-tooltip" place="top" variant="error" isOpen={!!errors.lastName} />
-        </div>
+          <div className={styles.profileInputContainer}>
+            <label htmlFor="lastName" className={styles.label}>
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              className={styles.profileInput}
+              type="text"
+              disabled={!editMode}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={errors.lastName?.message}
+              {...register('lastName', validationRules.name)}
+              placeholder="Doe"
+            />
+            <Tooltip id="tooltip" place="top" variant="error" isOpen={!!errors.lastName} />
+          </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="dateOfBirth" className={styles.label}>
-            Date of Birth
-          </label>
-          <input
-            id="dateOfBirth"
-            type="date"
-            disabled={!editMode}
-            className={styles.input}
-            data-tooltip-id="date-tooltip"
-            data-tooltip-content={errors.dateOfBirth?.message}
-            {...register('dateOfBirth', validationRules.dateOfBirth)}
-          />
-          <Tooltip id="date-tooltip" place="top" variant="error" isOpen={!!errors.dateOfBirth} />
-        </div>
+          <div className={styles.profileInputContainer}>
+            <label htmlFor="dateOfBirth" className={styles.label}>
+              Date of Birth
+            </label>
+            <input
+              id="dateOfBirth"
+              type="date"
+              disabled={!editMode}
+              className={styles.profileInput}
+              data-tooltip-id="tooltip"
+              data-tooltip-content={errors.dateOfBirth?.message}
+              {...register('dateOfBirth', validationRules.dateOfBirth)}
+            />
+            <Tooltip id="tooltip" place="top" variant="error" isOpen={!!errors.dateOfBirth} />
+          </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>
-            Email
-          </label>
-          <input
-            id="email"
-            type="text"
-            className={styles.input}
-            disabled={!editMode}
-            placeholder="example@mail.com"
-            data-tooltip-id="email-tooltip"
-            data-tooltip-content={errors.email?.message}
-            {...register('email', validationRules.email)}
-          />
-          <Tooltip id="email-tooltip" place="top" variant="error" isOpen={!!errors.email} />
+          <div className={styles.profileInputContainer}>
+            <label htmlFor="email" className={styles.label}>
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              className={styles.profileInput}
+              disabled={!editMode}
+              placeholder="example@mail.com"
+              data-tooltip-id="tooltip-email"
+              data-tooltip-content={errors.email?.message}
+              {...register('email', validationRules.email)}
+            />
+            <Tooltip id="tooltip-email" place="top" variant="error" isOpen={!!errors.email} />
+          </div>
         </div>
-
         <button
           type="button"
           className={styles.editButton}
@@ -173,7 +173,7 @@ export const UserProfile: FC = () => {
           Save changes
         </button>
       </form>
-    </div>
+    </main>
     //   )}
     // </>
   );

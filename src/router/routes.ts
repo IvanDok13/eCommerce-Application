@@ -7,5 +7,6 @@ export enum AppRoutes {
   CATALOG_CATEGORY_ROUTE = '/catalog/:categorySlug',
   PRODUCT_DETAIL_ROUTE = '/product/:productId',
   // TO DO: implement this - CATALOG_CATEGORY_ROUTE = '/catalog/*',
+  CART_ROUTE = '/cart',
   ERROR_ROUTE = '*',
 }

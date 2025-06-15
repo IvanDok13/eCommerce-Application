@@ -1,10 +1,10 @@
 import { type Category } from '@commercetools/platform-sdk';
-import { apiRoot } from '../api-root';
+import { apiRootWithProjectKey } from '../api-root';
 import { type CategoryTreeItem } from './category-api.types';
 
 export const getAllCategories = async (): Promise<Category[]> => {
   try {
-    const response = await apiRoot
+    const response = await apiRootWithProjectKey
       .categories()
       .get({ queryArgs: { limit: 50 } })
       .execute();

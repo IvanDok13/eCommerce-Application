@@ -29,7 +29,7 @@ const authenticateUser = (email: string, password: string): Client => {
     .build();
 };
 
-function authRequestClient(email: string, password: string): ByProjectKeyRequestBuilder {
+export function authRequestClient(email: string, password: string): ByProjectKeyRequestBuilder {
   const client = authenticateUser(email, password);
   return createApiBuilderFromCtpClient(client).withProjectKey({
     projectKey: PROJECT_KEY,

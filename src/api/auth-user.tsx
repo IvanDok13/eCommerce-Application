@@ -1,11 +1,17 @@
 import type { ByProjectKeyRequestBuilder, ClientResponse, CustomerSignInResult } from '@commercetools/platform-sdk';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import type { Client, PasswordAuthMiddlewareOptions } from '@commercetools/ts-client';
+import type { Customer } from '@commercetools/platform-sdk';
 import { ClientBuilder } from '@commercetools/ts-client';
-import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/ecomm-const';
+import { AUTH_URL, API_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY, SCOPES } from '@utils/ecomm-const';
 import { tokenCache } from '../utils/token';
 import { httpMiddlewareOptions } from './middleware-options';
 
+type StoredToken = {
+  token: string;
+  expirationTime?: number;
+  refreshToken?: string;
+};
 const authenticateUser = (email: string, password: string): Client => {
   const authMiddlewareOptions: PasswordAuthMiddlewareOptions = {
     host: AUTH_URL,
@@ -43,3 +49,24 @@ export async function authRequestResponse(
   const authLogin = authRequestClient(email, password);
   return authLogin.me().login().post({ body: { email, password } }).execute();
 }
+
+// Fetch Customer Data (for auth check)
+export const getCustomerData = async (): Promise<any> => {
+  const stored = localStorage.getItem('Token');
+  if (!stored) throw new Error('No token');
+
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const { token } = JSON.parse(stored) as StoredToken;
+  const response = await fetch(`${API_URL}/${PROJECT_KEY}/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error('Not authorized');
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const customer = (await response.json()) as Customer;
+  console.log(customer);
+
+  return customer;
+};

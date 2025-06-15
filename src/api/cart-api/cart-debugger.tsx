@@ -1,9 +1,10 @@
 import { type FC, useEffect } from 'react';
-import { createCart, getActiveCart } from './cart-api';
+import { addProductToCart, createCart, getActiveCart } from './cart-api';
 import { tokenCache } from '@utils/token';
 
 export const CartDebugger: FC = () => {
   useEffect(() => {
+    const productIdsToAdd = ['2af7b1d7-3969-4fe9-89e8-4696af709a86'];
     const fetchOrCreateCart = async (): Promise<void> => {
       const tokenStore = tokenCache.get();
       console.log('📦 token:', tokenStore);
@@ -19,9 +20,15 @@ export const CartDebugger: FC = () => {
           console.log('🛒 New Cart i:', cart);
         } else {
           console.log('🛒 Active Cart is:', cart);
+          // Add products to the cart
+          for (const productId of productIdsToAdd) {
+            console.log(`➕ Adding product ${productId} to cart...`);
+            await addProductToCart(productId, 1);
+            console.log(`Product ${productId} added`);
+          }
         }
       } catch (error) {
-        console.error('❌ Cart Error:', error);
+        console.error('Cart Error:', error);
       }
     };
 

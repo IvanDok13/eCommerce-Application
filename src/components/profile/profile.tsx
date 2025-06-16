@@ -1,97 +1,83 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCustomerData } from '@api/auth-user';
+import type { Customer } from '@commercetools/platform-sdk';
 import type { FC } from 'react';
 import type { ProfileData } from './interfaces-profile';
 import styles from './profile.module.css';
 
-const mockProfile: ProfileData = {
-  firstName: 'Иван',
-  lastName: 'Иванов',
-  dateOfBirth: '1990-01-01',
-  email: 'ivan@example.com',
-  addresses: [
-    {
-      id: '1',
-      streetName: 'ул. Примерная',
-      city: 'Москва',
-      postalCode: '123456',
-      country: 'RU',
-    },
-  ],
-};
-
-export const UserProfile: FC = () => {
+export const UserProfile = () => {
+  const [user, setUser] = useState<Customer | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    getCustomerData()
+      .then(setUser)
+      .catch(() => console.log('Не авторизован'));
+  }, []);
+
+  if (!user) return <div>Loading...</div>;
+
+  const primaryAddress = user.addresses?.[0];
 
   return (
     <div className={styles.profileContainer}>
-      <h2 className={styles.title}>Профиль пользователя</h2>
+      <h2 className={styles.title}>Profile User</h2>
       {isEditing ? (
         <form className={styles.profileForm}>
           <div className={styles.formGroup}>
             <label htmlFor="firstName" className={styles.label}>
-              Имя
+              First Name
             </label>
-            <input id="firstName" className={styles.input} defaultValue={mockProfile.firstName} />
+            <input id="firstName" className={styles.input} defaultValue={user.firstName || ''} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="lastName" className={styles.label}>
-              Фамилия
+              Last Name
             </label>
-            <input id="lastName" className={styles.input} defaultValue={mockProfile.lastName} />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="dateOfBirth" className={styles.label}>
-              Дата рождения
-            </label>
-            <input id="dateOfBirth" type="date" className={styles.input} defaultValue={mockProfile.dateOfBirth} />
+            <input id="lastName" className={styles.input} defaultValue={user.lastName || ''} />
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.label}>
               Email
             </label>
-            <input id="email" type="email" className={styles.input} defaultValue={mockProfile.email} />
+            <input id="email" type="email" className={styles.input} defaultValue={user.email} />
           </div>
 
           <button type="submit" className={styles.submitButton}>
-            Сохранить
+            Save
           </button>
           <button type="button" className={styles.cancelButton} onClick={() => setIsEditing(false)}>
-            Отмена
+            Cancel
           </button>
         </form>
       ) : (
         <div className={styles.profileInfo}>
           <p>
-            <strong>Имя:</strong> {mockProfile.firstName}
+            <strong>First Name:</strong> {user.firstName}
           </p>
           <p>
-            <strong>Фамилия:</strong> {mockProfile.lastName}
+            <strong>Last Name:</strong> {user.lastName}
           </p>
           <p>
-            <strong>Дата рождения:</strong> {mockProfile.dateOfBirth}
+            <strong>Email:</strong> {user.email}
           </p>
-          <p>
-            <strong>Email:</strong> {mockProfile.email}
-          </p>
+
           <div className={styles.addresses}>
-            <h3>Адреса:</h3>
-            {mockProfile.addresses.length > 0 ? (
-              <ul>
-                {mockProfile.addresses.map(address => (
-                  <li key={address.id}>
-                    {address.streetName}, {address.city}, {address.postalCode}, {address.country}
-                  </li>
-                ))}
-              </ul>
+            <h3>Address:</h3>
+            {primaryAddress ? (
+              <p>
+                {primaryAddress.streetName}, {primaryAddress.city}, {primaryAddress.postalCode},{' '}
+                {primaryAddress.country}
+              </p>
             ) : (
-              <p>Адреса отсутствуют</p>
+              <p>No address available</p>
             )}
           </div>
+
           <button className={styles.editButton} onClick={() => setIsEditing(true)}>
-            Редактировать
+            Edit
           </button>
         </div>
       )}

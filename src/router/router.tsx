@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
 import { Catalog } from '@pages/catalog/catalog';
 import { DetailedProductWrapper } from '@pages/detailed-product/detailed-product';
+import { CartPage } from '@pages/cart/cart';
 
 export const AppRouter: FC = () => (
   <BrowserRouter>
@@ -19,6 +20,7 @@ export const AppRouter: FC = () => (
       <Route path={AppRoutes.CATALOG_ROUTE} element={<Catalog />} />
       <Route path={AppRoutes.CATALOG_CATEGORY_ROUTE} element={<Catalog />} />
       <Route path={AppRoutes.PRODUCT_DETAIL_ROUTE} element={<DetailedProductWrapper />} />
+      <Route path={AppRoutes.CART_ROUTE} element={<CartPage />} />
       <Route path={AppRoutes.ERROR_ROUTE} element={<NotFoundPage />} />
     </Routes>
   </BrowserRouter>

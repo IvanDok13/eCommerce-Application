@@ -62,3 +62,52 @@ export async function addProductToCart(productId: string, quantity: number = 1):
 
   return response.body;
 }
+
+// Qantity update function
+
+export async function updateLineItemQuantity(lineItemId: string, quantity: number): Promise<Cart> {
+  if (quantity < 1) {
+    throw new Error('Quantity must be at least 1');
+  }
+
+  const apiClient = getApiClient();
+  const cart = await getActiveCart();
+  if (!cart) throw new Error('No active cart found');
+
+  const updateBody: MyCartUpdate = {
+    version: cart.version,
+    actions: [
+      {
+        action: 'changeLineItemQuantity',
+        lineItemId,
+        quantity,
+      },
+    ],
+  };
+
+  const response = await apiClient.me().carts().withId({ ID: cart.id }).post({ body: updateBody }).execute();
+
+  return response.body;
+}
+
+// Remove line item function
+
+export async function removeLineItem(lineItemId: string): Promise<Cart> {
+  const apiClient = getApiClient();
+  const cart = await getActiveCart();
+  if (!cart) throw new Error('No active cart found');
+
+  const updateBody: MyCartUpdate = {
+    version: cart.version,
+    actions: [
+      {
+        action: 'removeLineItem',
+        lineItemId,
+      },
+    ],
+  };
+
+  const response = await apiClient.me().carts().withId({ ID: cart.id }).post({ body: updateBody }).execute();
+
+  return response.body;
+}

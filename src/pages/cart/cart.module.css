@@ -1,23 +1,22 @@
 .cartPage {
-  max-width: 960px;
+  padding: 1rem;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  min-height: 100vh;
 }
 
 .cartItem {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
 }
 
-.cartItemTitle {
-  font-weight: 500;
+.cartItem:last-child {
+  border-bottom: none;
 }
 
-.cartTotal {
-  font-weight: 600;
-  font-size: 18px;
-  text-align: right;
-  margin-top: 20px;
+.cartItem > div {
+  flex-shrink: 0;
 }

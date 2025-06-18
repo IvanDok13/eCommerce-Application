@@ -45,6 +45,7 @@ export const RegistrationForm: FC = () => {
       setLogin(result.body.customer.email);
       setIsLoginned(true);
       localStorage.setItem('registrationSuccess', 'true');
+      localStorage.setItem('customerId', result.body.customer.id);
       navigate('/');
     } catch (error: unknown) {
       const authApiError = authError(error);

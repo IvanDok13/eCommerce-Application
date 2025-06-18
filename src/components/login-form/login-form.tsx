@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 import { authContext } from 'src/context/auth-provider';
 import styles from './login-form.module.css';
@@ -55,6 +55,7 @@ export const LoginForm: FC = () => {
     try {
       const response = await authRequestResponse(data.email, data.password);
       const customer = response.body.customer;
+      localStorage.setItem('customerId', response.body.customer.id);
       setLogin(customer.email);
       setIsLoginned(true);
       setCustomerId(customer.id);
@@ -85,7 +86,7 @@ export const LoginForm: FC = () => {
   }
 
   return (
-    <main className={styles.loginContainer}>
+    <main className={styles.main}>
       <form className={styles.loginForm} action="submit" onSubmit={event => void handleSubmit(formSubmit)(event)}>
         <div className="formBlockContainer">
           <div className={styles.registrationInputContainer}>
@@ -140,9 +141,9 @@ export const LoginForm: FC = () => {
         <button type="submit" className="registrationButton">
           Login
         </button>
-        <a href="/registration" className={styles.signUpButton}>
+        <Link to="/registration" className={styles.signUpButton}>
           Sign up
-        </a>
+        </Link>
       </form>
     </main>
   );

@@ -15,11 +15,11 @@ import {
   findRootCategory,
   getCategoryAndChildrenIds,
 } from '@api/category-api/category-api';
+import { getCartLineItems } from '@api/cart-api/cart-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
 import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
 import type { Filters } from '@components/product-list/product-list.types';
-import { CartDebugger } from '@api/cart-api/cart-debugger';
 
 export const Catalog: FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -42,7 +42,9 @@ export const Catalog: FC = () => {
     priceMax: undefined,
   });
 
-  // Categories Loading
+  const [cartMap, setCartMap] = useState<Record<string, number>>({});
+
+  // Load categories
   useEffect(() => {
     const loadCategories = async (): Promise<void> => {
       try {
@@ -72,7 +74,7 @@ export const Catalog: FC = () => {
     void loadCategories();
   }, [categorySlug, navigate]);
 
-  // Products Loading
+  // Load products
   useEffect(() => {
     const loadProducts = async (): Promise<void> => {
       setLoadingProducts(true);
@@ -104,6 +106,28 @@ export const Catalog: FC = () => {
     void loadProducts();
   }, [filters, sortBy, searchQuery, currentCategoryId, categoryTree]);
 
+  // Load cart items
+  useEffect(() => {
+    const fetchCartItems = async (): Promise<void> => {
+      try {
+        const items = await getCartLineItems();
+        const map: Record<string, number> = {};
+
+        items.forEach(item => {
+          if (item.productId) {
+            map[item.productId] = item.quantity;
+          }
+        });
+
+        setCartMap(map);
+      } catch (error) {
+        console.error('Failed to load cart items:', error);
+      }
+    };
+
+    void fetchCartItems();
+  }, []);
+
   if (loadingCategories) return <div>Loading categories...</div>;
   if (!categoryTree || categoryTree.length === 0) return <div>No categories found</div>;
   if (!currentCategoryId) return <div>Category not found</div>;
@@ -117,10 +141,28 @@ export const Catalog: FC = () => {
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <SortControls sortBy={sortBy} setSortBy={setSortBy} />
             <Breadcrumbs categoryId={currentCategoryId} categoryTree={categoryTree} />
-            <CartDebugger />
           </div>
 
-          {loadingProducts ? <div>Loading products...</div> : <ProductList products={products} />}
+          {loadingProducts ? (
+            <div>Loading products...</div>
+          ) : (
+            <div className={styles.productList}>
+              {products.map(product => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  artist={product.artist}
+                  color={product.color}
+                  size={product.size}
+                  imageUrls={product.imageUrls}
+                  isInCart={cartMap[product.id] != null}
+                  quantityInCart={cartMap[product.id] || 0}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

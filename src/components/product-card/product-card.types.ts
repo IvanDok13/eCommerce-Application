@@ -6,5 +6,6 @@ export interface ProductCardProps {
   color: string;
   size: string;
   imageUrls: string[];
-  // cartItems: { productId: string }[];
+  isInCart?: boolean;
+  quantityInCart?: number;
 }

@@ -1,14 +1,13 @@
 import { type FC, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './catalog.module.css';
 
-import { Header } from '@components/header/header';
-import { FilterSidebar } from '@components/sidebar/sidebar';
-import { SearchBar } from '@components/search-bar/search-bar';
-import { SortControls } from '@components/sort-controls/sort-controls';
 import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
-import { ProductCard } from '@components/product-card/product-card';
+import { ProductList } from '@components/product-list/product-list';
+import { SearchBar } from '@components/search-bar/search-bar';
+import { FilterSidebar } from '@components/sidebar/sidebar';
+import { SortControls } from '@components/sort-controls/sort-controls';
 
 import {
   fetchCategoryTree,
@@ -16,11 +15,9 @@ import {
   findRootCategory,
   getCategoryAndChildrenIds,
 } from '@api/category-api/category-api';
-
-import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import { getCartLineItems } from '@api/cart-api/cart-api';
-
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
+import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';
 import type { Filters } from '@components/product-list/product-list.types';
 
@@ -137,7 +134,6 @@ export const Catalog: FC = () => {
 
   return (
     <div className={styles.catalogPage}>
-      <Header />
       <div className={styles.catalogContainer}>
         <FilterSidebar onApply={setFilters} products={products} />
         <div className={styles.catalogMain}>

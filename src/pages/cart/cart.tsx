@@ -3,6 +3,8 @@ import styles from './cart.module.css';
 import { Header } from '@components/header/header';
 import { getActiveCart, updateLineItemQuantity, removeLineItem } from '@api/cart-api/cart-api';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import { useEffect, useState, type FC } from 'react';
+import styles from './cart.module.css';
 
 export const CartPage: FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
@@ -70,7 +72,6 @@ export const CartPage: FC = () => {
 
   return (
     <div className={styles.cartPage}>
-      <Header />
       <h2>Your Cart</h2>
 
       {loading && <div>Loading cart...</div>}

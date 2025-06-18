@@ -1,4 +1,4 @@
-import { TokenCache, TokenStore } from '@commercetools/ts-client';
+import type { TokenCache, TokenStore } from '@commercetools/ts-client';
 
 export const tokenCache: TokenCache = {
   get(): TokenStore {

@@ -23,11 +23,14 @@ export const authContext: Context<authContextTupe> = createContext(defaultContex
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [login, setLogin] = useState('');
+
+  const [customerId, setCustomerId] = useState(() => {
+    return localStorage.getItem('customerId') || '';
+  });
+
   const [isLoginned, setIsLoginned] = useState(() => {
     return Boolean(localStorage.getItem('Token'));
   });
-  const [customerId, setCustomerId] = useState('');
-
   return (
     <authContext.Provider value={{ login, isLoginned, customerId, setLogin, setIsLoginned, setCustomerId }}>
       {children}

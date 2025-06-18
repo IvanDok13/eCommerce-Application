@@ -33,8 +33,18 @@ export const CartPage: FC = () => {
       <ul>
         {cart.lineItems.map((item: LineItem) => (
           <li key={item.id} className={styles.cartItem}>
-            {item.name?.['en-US'] || 'Unnamed product'} — {item.quantity} pcs —{' '}
-            {((item.price?.value.centAmount ?? 0) * item.quantity) / 100} {item.price?.value.currencyCode}
+            <div className={styles.productImageWrapper}>
+              <img
+                src={item.variant?.images?.[0]?.url || 'placeholder-image-url.jpg'}
+                alt={item.name?.['en-US'] || 'Product image'}
+                className={styles.productImage}
+              />
+            </div>
+            <div className={styles.productInfo}>{item.name?.['en-US'] || 'Unnamed product'}</div>
+            <div className={styles.productQuantity}>{item.quantity} pcs</div>
+            <div className={styles.productTotalPrice}>
+              {((item.price?.value.centAmount ?? 0) * item.quantity) / 100} {item.price?.value.currencyCode}
+            </div>
           </li>
         ))}
       </ul>

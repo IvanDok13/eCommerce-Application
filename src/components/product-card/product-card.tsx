@@ -36,6 +36,14 @@ export const ProductCard: FC<ProductCardProps> = ({
     }
   };
 
+  let buttonLabel = 'Add to Cart 🛒';
+
+  if (added) {
+    buttonLabel = 'In Cart';
+  } else if (adding) {
+    buttonLabel = 'Adding...';
+  }
+
   return (
     <div className={styles.productCard}>
       <Link to={`/product/${id}`} className={styles.productCardLink}>
@@ -51,7 +59,7 @@ export const ProductCard: FC<ProductCardProps> = ({
         onClick={event => void handleAddToCart(event)}
         disabled={added || adding}
       >
-        {added ? 'In Cart' : adding ? 'Adding...' : 'Add to Cart 🛒'}
+        {buttonLabel}
       </button>
     </div>
   );

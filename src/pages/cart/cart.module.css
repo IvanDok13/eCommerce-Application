@@ -1,7 +1,16 @@
 .cartPage {
-  padding: 1rem;
-  max-width: 800px;
+  max-width: 1440px;
   margin: 0 auto;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.cartList {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  margin: 20px;
 }
 
 .cartItem {
@@ -30,6 +39,11 @@
 .productInfo {
   flex-grow: 1;
   text-align: left;
+}
+
+.productQuantity {
+  display: flex;
+  justify-content: space-between;
 }
 
 .productQuantity,

@@ -20,3 +20,27 @@
 .cartItem > div {
   flex-shrink: 0;
 }
+
+.productImageWrapper {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.productInfo {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.productQuantity,
+.productTotalPrice {
+  width: 80px;
+  text-align: right;
+}
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}

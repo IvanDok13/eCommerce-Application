@@ -13,3 +13,13 @@ export interface ProfileData {
   email: string;
   addresses: Address[];
 }
+
+export interface Customer {
+  id: string;
+  version: number;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string;
+  addresses: Address[];
+}

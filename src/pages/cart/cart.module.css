@@ -1,0 +1,23 @@
+.cartPage {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.cartItem {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cartItemTitle {
+  font-weight: 500;
+}
+
+.cartTotal {
+  font-weight: 600;
+  font-size: 18px;
+  text-align: right;
+  margin-top: 20px;
+}

@@ -1,4 +1,4 @@
-import { apiRoot } from '../api-root';
+import { apiRootWithProjectKey } from '../api-root';
 import type { Product } from '@commercetools/platform-sdk';
 import type { ProductQueryParameters, ProductRenderData } from './products-api.types';
 
@@ -25,7 +25,7 @@ export const fetchProducts = async (limit: number, categoryIds?: string[]): Prom
     queryArguments['where'] = `masterData(current(categories(id in (${categoryFilter}))))`;
   }
 
-  const response = await apiRoot.products().get({ queryArgs: queryArguments }).execute();
+  const response = await apiRootWithProjectKey.products().get({ queryArgs: queryArguments }).execute();
   return response.body.results;
 };
 

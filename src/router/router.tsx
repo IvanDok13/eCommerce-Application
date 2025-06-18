@@ -10,6 +10,12 @@ import { Registration } from '@pages/registration/registration';
 import type { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
+<<<<<<< feat/user-info
+=======
+import { Catalog } from '@pages/catalog/catalog';
+import { DetailedProductWrapper } from '@pages/detailed-product/detailed-product';
+import { CartPage } from '@pages/cart/cart';
+>>>>>>> sprint-4/setup
 
 export const AppRouter: FC = () => (
   <BrowserRouter>
@@ -22,6 +28,7 @@ export const AppRouter: FC = () => (
       <Route path={AppRoutes.CATALOG_ROUTE} element={<Catalog />} />
       <Route path={AppRoutes.CATALOG_CATEGORY_ROUTE} element={<Catalog />} />
       <Route path={AppRoutes.PRODUCT_DETAIL_ROUTE} element={<DetailedProductWrapper />} />
+      <Route path={AppRoutes.CART_ROUTE} element={<CartPage />} />
       <Route path={AppRoutes.ERROR_ROUTE} element={<NotFoundPage />} />
     </Routes>
     <Footer />

@@ -1,5 +1,4 @@
-import { authRequestResponse, getCustomerData } from '@api/auth-user';
-import type { Customer } from '@commercetools/platform-sdk';
+import { authRequestResponse } from '@api/auth-user';
 import { authError } from '@utils/auth-error';
 import { validationRules } from '@utils/validation-rules';
 import type { FC } from 'react';
@@ -14,7 +13,6 @@ import type { LoginFormData } from './login-form.types';
 
 export const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -33,32 +31,19 @@ export const LoginForm: FC = () => {
   const { isLoginned, setLogin, setIsLoginned, setCustomerId } = useContext(authContext);
 
   useEffect(() => {
-    const checkAuth = async (): Promise<void> => {
-      try {
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        const customer = (await getCustomerData()) as Customer;
-        setLogin(customer.email);
-        setCustomerId(customer.id);
-        setIsLoginned(true);
-        console.log('user authorized');
-        navigate('/profile');
-      } catch (error) {
-        console.warn('user is not authorized', error);
-        setIsLoginned(false);
-      }
-    };
-
-    void checkAuth();
-  }, []);
+    if (isLoginned) {
+      navigate('/');
+    }
+  }, [isLoginned, navigate]);
 
   const formSubmit: SubmitHandler<LoginFormData> = async data => {
     try {
       const response = await authRequestResponse(data.email, data.password);
       const customer = response.body.customer;
-      localStorage.setItem('customerId', response.body.customer.id);
       setLogin(customer.email);
       setIsLoginned(true);
       setCustomerId(customer.id);
+      localStorage.setItem('customerId', response.body.customer.id);
       navigate('/');
     } catch (error) {
       const authApiError = authError(error);
@@ -80,10 +65,6 @@ export const LoginForm: FC = () => {
     }
     console.log('Form submitted:', data);
   };
-
-  if (isLoading) {
-    return <div className={styles.loginContainer}>Loading...</div>;
-  }
 
   return (
     <main className={styles.main}>

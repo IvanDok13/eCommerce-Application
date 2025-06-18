@@ -1,6 +1,7 @@
 import { Footer } from '@components/footer/footer';
 import { Header } from '@components/header/header';
 import { NotFoundPage } from '@pages/404/not-found-page';
+import { CartPage } from '@pages/cart/cart';
 import { Catalog } from '@pages/catalog/catalog';
 import { DetailedProductWrapper } from '@pages/detailed-product/detailed-product';
 import { Home } from '@pages/home/home';
@@ -10,12 +11,6 @@ import { Registration } from '@pages/registration/registration';
 import type { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './routes';
-<<<<<<< feat/user-info
-=======
-import { Catalog } from '@pages/catalog/catalog';
-import { DetailedProductWrapper } from '@pages/detailed-product/detailed-product';
-import { CartPage } from '@pages/cart/cart';
->>>>>>> sprint-4/setup
 
 export const AppRouter: FC = () => (
   <BrowserRouter>

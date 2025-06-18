@@ -95,6 +95,7 @@ export const CartPage: FC = () => {
 
                 <div className={styles.productQuantity}>
                   <button
+                    className={styles.minusButton}
                     onClick={() => {
                       void handleDecrease(item.id, item.quantity);
                     }}
@@ -105,6 +106,7 @@ export const CartPage: FC = () => {
                   </button>
                   <span>{item.quantity}</span>
                   <button
+                    className={styles.plusButton}
                     onClick={() => {
                       void handleIncrease(item.id, item.quantity);
                     }}

@@ -1,8 +1,7 @@
-import { useEffect, useState, type FC } from 'react';
-import styles from './cart.module.css';
-import { Header } from '@components/header/header';
 import { getActiveCart } from '@api/cart-api/cart-api';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import { useEffect, useState, type FC } from 'react';
+import styles from './cart.module.css';
 
 export const CartPage: FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
@@ -28,7 +27,6 @@ export const CartPage: FC = () => {
   if (!cart || cart.lineItems.length === 0) return <div>Your cart is empty.</div>;
   return (
     <div className={styles.cartPage}>
-      <Header />
       <h2>Your Cart</h2>
       <ul>
         {cart.lineItems.map((item: LineItem) => (

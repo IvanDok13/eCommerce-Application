@@ -28,10 +28,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return localStorage.getItem('customerId') || '';
   });
 
-  const [anonymousId, setAnonymousId] = useState(() => {
-    return localStorage.getItem('anonymousId') || '';
-  });
-
   const [isLoginned, setIsLoginned] = useState(() => {
     return Boolean(localStorage.getItem('Token'));
   });

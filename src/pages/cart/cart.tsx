@@ -1,7 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
-import styles from './cart.module.css';
-import { Header } from '@components/header/header';
-import { getActiveCart, updateLineItemQuantity, removeLineItem } from '@api/cart-api/cart-api';
+import { getActiveCart, removeLineItem, updateLineItemQuantity } from '@api/cart-api/cart-api';
 import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { useEffect, useState, type FC } from 'react';
 import styles from './cart.module.css';

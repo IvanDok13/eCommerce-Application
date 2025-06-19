@@ -4,18 +4,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './catalog.module.css';
 
 import { Breadcrumbs } from '@components/breadcrumbs/breadcrumbs';
-import { ProductList } from '@components/product-list/product-list';
+import { ProductCard } from '@components/product-card/product-card';
 import { SearchBar } from '@components/search-bar/search-bar';
 import { FilterSidebar } from '@components/sidebar/sidebar';
 import { SortControls } from '@components/sort-controls/sort-controls';
 
+import { getCartLineItems } from '@api/cart-api/cart-api';
 import {
   fetchCategoryTree,
   findCategoryBySlug,
   findRootCategory,
   getCategoryAndChildrenIds,
 } from '@api/category-api/category-api';
-import { getCartLineItems } from '@api/cart-api/cart-api';
 import type { CategoryTreeItem } from '@api/category-api/category-api.types';
 import { fetchProducts, getRenderArray } from '@api/products-api/products-api';
 import type { ProductRenderData, SortByOption } from '@api/products-api/products-api.types';

@@ -28,11 +28,26 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return localStorage.getItem('customerId') || '';
   });
 
+  const [anonymousId, setAnonymousId] = useState(() => {
+    return localStorage.getItem('anonymousId') || '';
+  });
+
   const [isLoginned, setIsLoginned] = useState(() => {
     return Boolean(localStorage.getItem('Token'));
   });
   return (
-    <authContext.Provider value={{ login, isLoginned, customerId, setLogin, setIsLoginned, setCustomerId }}>
+    <authContext.Provider
+      value={{
+        login,
+        isLoginned,
+        anonymousId,
+        customerId,
+        setLogin,
+        setIsLoginned,
+        setCustomerId,
+        setAnonymousId,
+      }}
+    >
       {children}
     </authContext.Provider>
   );
